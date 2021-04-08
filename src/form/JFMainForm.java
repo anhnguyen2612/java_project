@@ -5,6 +5,9 @@
  */
 package form;
 
+import javax.swing.JOptionPane;
+import model.Login;
+
 /**
  *
  * @author MYPCDESU
@@ -19,6 +22,13 @@ public class JFMainForm extends javax.swing.JFrame {
         this.setTitle("Application main form");
         this.setSize(1280, 720);
     }
+    public JFMainForm(Login login) {
+        initComponents();
+        this.setTitle("Application main form");
+        this.setSize(1280, 720);
+        User.setText(login.getUser());
+        JOptionPane.showMessageDialog(null, login.getHello());
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -32,10 +42,10 @@ public class JFMainForm extends javax.swing.JFrame {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         homePanel = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
+        Home = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        User = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
@@ -53,7 +63,6 @@ public class JFMainForm extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
         setFont(new java.awt.Font("Myriad Pro", 0, 10)); // NOI18N
-        setPreferredSize(new java.awt.Dimension(1280, 720));
         setResizable(false);
 
         jTabbedPane1.setBackground(new java.awt.Color(255, 255, 255));
@@ -67,8 +76,8 @@ public class JFMainForm extends javax.swing.JFrame {
         homePanel.setVerifyInputWhenFocusTarget(false);
         homePanel.setLayout(new java.awt.BorderLayout());
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setLayout(new java.awt.GridBagLayout());
+        Home.setBackground(new java.awt.Color(255, 255, 255));
+        Home.setLayout(new java.awt.GridBagLayout());
 
         jLabel3.setFont(new java.awt.Font("Myriad Pro", 0, 55)); // NOI18N
         jLabel3.setText("Trang chủ");
@@ -81,7 +90,7 @@ public class JFMainForm extends javax.swing.JFrame {
         gridBagConstraints.weightx = 2.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(jLabel3, gridBagConstraints);
+        Home.add(jLabel3, gridBagConstraints);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("User name:");
@@ -94,10 +103,10 @@ public class JFMainForm extends javax.swing.JFrame {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(jLabel1, gridBagConstraints);
+        Home.add(jLabel1, gridBagConstraints);
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel2.setText("dsadawd");
+        User.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        User.setText("dsadawd");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
@@ -106,7 +115,7 @@ public class JFMainForm extends javax.swing.JFrame {
         gridBagConstraints.weightx = 2.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(jLabel2, gridBagConstraints);
+        Home.add(User, gridBagConstraints);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel4.setText("User name:");
@@ -119,9 +128,9 @@ public class JFMainForm extends javax.swing.JFrame {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(jLabel4, gridBagConstraints);
+        Home.add(jLabel4, gridBagConstraints);
 
-        homePanel.add(jPanel1, java.awt.BorderLayout.CENTER);
+        homePanel.add(Home, java.awt.BorderLayout.CENTER);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -284,12 +293,13 @@ public class JFMainForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel Home;
+    private javax.swing.JLabel User;
     private javax.swing.JPanel homePanel;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -297,7 +307,6 @@ public class JFMainForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JPanel managePanel;
