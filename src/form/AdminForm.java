@@ -6,7 +6,12 @@
 package form;
 
 import java.awt.Color;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Vector;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import model.Login;
 
 /**
@@ -18,14 +23,33 @@ public class AdminForm extends javax.swing.JFrame {
     /**
      * Creates new form AdminForm
      */
+    private Connection conn;
+    private PreparedStatement stmt;
+    private ResultSet rs;
     public AdminForm() {
         initComponents();
+        try {
+			conn = DBUtil.getConnection();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		showAdmin();
+		showGiaovien();
+		showGiaovu();
         this.setTitle("Administrator");
         this.setLocationRelativeTo(null);
         this.setBackground(Color.WHITE);
     }
     public AdminForm(Login login) {
         initComponents();
+        try {
+			conn = DBUtil.getConnection();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		showAdmin();
+		showGiaovien();
+		showGiaovu();
         this.setTitle("Administrator");
         this.setLocationRelativeTo(null);
         this.setBackground(Color.WHITE);
@@ -51,51 +75,51 @@ public class AdminForm extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tableAdmin = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
         label3 = new java.awt.Label();
-        jTextField1 = new javax.swing.JTextField();
+        txtIDAD = new javax.swing.JTextField();
         label4 = new java.awt.Label();
-        jTextField2 = new javax.swing.JTextField();
+        txtUserAD = new javax.swing.JTextField();
         label5 = new java.awt.Label();
-        jTextField3 = new javax.swing.JTextField();
+        txtPassAD = new javax.swing.JTextField();
         jPanel7 = new javax.swing.JPanel();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
+        btnAddAdmin = new javax.swing.JButton();
+        btnEditAdmin = new javax.swing.JButton();
+        btnDeleteAdmin = new javax.swing.JButton();
+        btnResetAdmin = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tableGiaovu = new javax.swing.JTable();
         jPanel9 = new javax.swing.JPanel();
         label6 = new java.awt.Label();
-        jTextField4 = new javax.swing.JTextField();
+        txtIDGiaovu = new javax.swing.JTextField();
         label7 = new java.awt.Label();
-        jTextField5 = new javax.swing.JTextField();
+        txtUserGiaovu = new javax.swing.JTextField();
         label8 = new java.awt.Label();
-        jTextField6 = new javax.swing.JTextField();
+        txtPassGiaovu = new javax.swing.JTextField();
         jPanel10 = new javax.swing.JPanel();
-        jButton9 = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
-        jButton11 = new javax.swing.JButton();
-        jButton12 = new javax.swing.JButton();
+        btnAddGiaovu = new javax.swing.JButton();
+        btnEditGiaovu = new javax.swing.JButton();
+        btnDelGiaovu = new javax.swing.JButton();
+        btnResetGiaovu = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jPanel11 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        tableGiaovien = new javax.swing.JTable();
         jPanel12 = new javax.swing.JPanel();
         label9 = new java.awt.Label();
-        jTextField7 = new javax.swing.JTextField();
+        txtIDGV = new javax.swing.JTextField();
         label10 = new java.awt.Label();
-        jTextField8 = new javax.swing.JTextField();
+        txtUserGV = new javax.swing.JTextField();
         label11 = new java.awt.Label();
-        jTextField9 = new javax.swing.JTextField();
+        txtPassGV = new javax.swing.JTextField();
         jPanel13 = new javax.swing.JPanel();
-        jButton13 = new javax.swing.JButton();
-        jButton14 = new javax.swing.JButton();
-        jButton15 = new javax.swing.JButton();
-        jButton16 = new javax.swing.JButton();
+        btnAddGV = new javax.swing.JButton();
+        btnEditGV = new javax.swing.JButton();
+        btnDelGV = new javax.swing.JButton();
+        btnResetGV = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -152,7 +176,7 @@ public class AdminForm extends javax.swing.JFrame {
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
         jPanel6.setLayout(new java.awt.GridBagLayout());
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableAdmin.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -163,11 +187,11 @@ public class AdminForm extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jTable1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jTable1.setPreferredSize(new java.awt.Dimension(250, 72));
-        jTable1.setRowHeight(18);
-        jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane1.setViewportView(jTable1);
+        tableAdmin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        tableAdmin.setPreferredSize(new java.awt.Dimension(250, 72));
+        tableAdmin.setRowHeight(18);
+        tableAdmin.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane1.setViewportView(tableAdmin);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -187,7 +211,7 @@ public class AdminForm extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(10, 25, 10, 25);
         jPanel5.add(label3, gridBagConstraints);
 
-        jTextField1.setColumns(20);
+        txtIDAD.setColumns(20);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 2;
@@ -195,7 +219,7 @@ public class AdminForm extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 2.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 25, 10, 25);
-        jPanel5.add(jTextField1, gridBagConstraints);
+        jPanel5.add(txtIDAD, gridBagConstraints);
 
         label4.setText("User name:");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -204,7 +228,7 @@ public class AdminForm extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(10, 25, 10, 25);
         jPanel5.add(label4, gridBagConstraints);
 
-        jTextField2.setColumns(20);
+        txtUserAD.setColumns(20);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 2;
@@ -212,7 +236,7 @@ public class AdminForm extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 2.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 25, 10, 25);
-        jPanel5.add(jTextField2, gridBagConstraints);
+        jPanel5.add(txtUserAD, gridBagConstraints);
 
         label5.setText("Password: ");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -221,7 +245,7 @@ public class AdminForm extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(10, 25, 10, 25);
         jPanel5.add(label5, gridBagConstraints);
 
-        jTextField3.setColumns(20);
+        txtPassAD.setColumns(20);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 2;
@@ -229,42 +253,62 @@ public class AdminForm extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 2.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 25, 10, 25);
-        jPanel5.add(jTextField3, gridBagConstraints);
+        jPanel5.add(txtPassAD, gridBagConstraints);
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
         jPanel7.setLayout(new java.awt.GridBagLayout());
 
-        jButton5.setText("Thêm");
-        jButton5.setMargin(new java.awt.Insets(2, 25, 2, 25));
+        btnAddAdmin.setText("Thêm");
+        btnAddAdmin.setMargin(new java.awt.Insets(2, 25, 2, 25));
+        btnAddAdmin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddAdminActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
-        jPanel7.add(jButton5, gridBagConstraints);
+        jPanel7.add(btnAddAdmin, gridBagConstraints);
 
-        jButton6.setText("Sửa");
-        jButton6.setMargin(new java.awt.Insets(2, 25, 2, 25));
+        btnEditAdmin.setText("Sửa");
+        btnEditAdmin.setMargin(new java.awt.Insets(2, 25, 2, 25));
+        btnEditAdmin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditAdminActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
-        jPanel7.add(jButton6, gridBagConstraints);
+        jPanel7.add(btnEditAdmin, gridBagConstraints);
 
-        jButton7.setText("Xóa");
-        jButton7.setMargin(new java.awt.Insets(2, 25, 2, 25));
+        btnDeleteAdmin.setText("Xóa");
+        btnDeleteAdmin.setMargin(new java.awt.Insets(2, 25, 2, 25));
+        btnDeleteAdmin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteAdminActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
-        jPanel7.add(jButton7, gridBagConstraints);
+        jPanel7.add(btnDeleteAdmin, gridBagConstraints);
 
-        jButton8.setText("Reset");
-        jButton8.setMargin(new java.awt.Insets(2, 25, 2, 25));
+        btnResetAdmin.setText("Reset");
+        btnResetAdmin.setMargin(new java.awt.Insets(2, 25, 2, 25));
+        btnResetAdmin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetAdminActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
-        jPanel7.add(jButton8, gridBagConstraints);
+        jPanel7.add(btnResetAdmin, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
@@ -287,7 +331,7 @@ public class AdminForm extends javax.swing.JFrame {
         jPanel8.setBackground(new java.awt.Color(255, 255, 255));
         jPanel8.setLayout(new java.awt.GridBagLayout());
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tableGiaovu.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -298,11 +342,11 @@ public class AdminForm extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jTable2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jTable2.setPreferredSize(new java.awt.Dimension(250, 72));
-        jTable2.setRowHeight(18);
-        jTable2.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane2.setViewportView(jTable2);
+        tableGiaovu.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        tableGiaovu.setPreferredSize(new java.awt.Dimension(250, 72));
+        tableGiaovu.setRowHeight(18);
+        tableGiaovu.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane2.setViewportView(tableGiaovu);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -322,7 +366,7 @@ public class AdminForm extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(10, 25, 10, 25);
         jPanel9.add(label6, gridBagConstraints);
 
-        jTextField4.setColumns(20);
+        txtIDGiaovu.setColumns(20);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 2;
@@ -330,7 +374,7 @@ public class AdminForm extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 2.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 25, 10, 25);
-        jPanel9.add(jTextField4, gridBagConstraints);
+        jPanel9.add(txtIDGiaovu, gridBagConstraints);
 
         label7.setText("User name:");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -339,7 +383,7 @@ public class AdminForm extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(10, 25, 10, 25);
         jPanel9.add(label7, gridBagConstraints);
 
-        jTextField5.setColumns(20);
+        txtUserGiaovu.setColumns(20);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 2;
@@ -347,7 +391,7 @@ public class AdminForm extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 2.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 25, 10, 25);
-        jPanel9.add(jTextField5, gridBagConstraints);
+        jPanel9.add(txtUserGiaovu, gridBagConstraints);
 
         label8.setText("Password: ");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -356,7 +400,7 @@ public class AdminForm extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(10, 25, 10, 25);
         jPanel9.add(label8, gridBagConstraints);
 
-        jTextField6.setColumns(20);
+        txtPassGiaovu.setColumns(20);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 2;
@@ -364,42 +408,62 @@ public class AdminForm extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 2.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 25, 10, 25);
-        jPanel9.add(jTextField6, gridBagConstraints);
+        jPanel9.add(txtPassGiaovu, gridBagConstraints);
 
         jPanel10.setBackground(new java.awt.Color(255, 255, 255));
         jPanel10.setLayout(new java.awt.GridBagLayout());
 
-        jButton9.setText("Thêm");
-        jButton9.setMargin(new java.awt.Insets(2, 25, 2, 25));
+        btnAddGiaovu.setText("Thêm");
+        btnAddGiaovu.setMargin(new java.awt.Insets(2, 25, 2, 25));
+        btnAddGiaovu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddGiaovuActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
-        jPanel10.add(jButton9, gridBagConstraints);
+        jPanel10.add(btnAddGiaovu, gridBagConstraints);
 
-        jButton10.setText("Sửa");
-        jButton10.setMargin(new java.awt.Insets(2, 25, 2, 25));
+        btnEditGiaovu.setText("Sửa");
+        btnEditGiaovu.setMargin(new java.awt.Insets(2, 25, 2, 25));
+        btnEditGiaovu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditGiaovuActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
-        jPanel10.add(jButton10, gridBagConstraints);
+        jPanel10.add(btnEditGiaovu, gridBagConstraints);
 
-        jButton11.setText("Xóa");
-        jButton11.setMargin(new java.awt.Insets(2, 25, 2, 25));
+        btnDelGiaovu.setText("Xóa");
+        btnDelGiaovu.setMargin(new java.awt.Insets(2, 25, 2, 25));
+        btnDelGiaovu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDelGiaovuActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
-        jPanel10.add(jButton11, gridBagConstraints);
+        jPanel10.add(btnDelGiaovu, gridBagConstraints);
 
-        jButton12.setText("Reset");
-        jButton12.setMargin(new java.awt.Insets(2, 25, 2, 25));
+        btnResetGiaovu.setText("Reset");
+        btnResetGiaovu.setMargin(new java.awt.Insets(2, 25, 2, 25));
+        btnResetGiaovu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetGiaovuActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
-        jPanel10.add(jButton12, gridBagConstraints);
+        jPanel10.add(btnResetGiaovu, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
@@ -423,7 +487,7 @@ public class AdminForm extends javax.swing.JFrame {
         jPanel11.setBackground(new java.awt.Color(255, 255, 255));
         jPanel11.setLayout(new java.awt.GridBagLayout());
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        tableGiaovien.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -434,11 +498,11 @@ public class AdminForm extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jTable3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jTable3.setPreferredSize(new java.awt.Dimension(250, 72));
-        jTable3.setRowHeight(18);
-        jTable3.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane3.setViewportView(jTable3);
+        tableGiaovien.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        tableGiaovien.setPreferredSize(new java.awt.Dimension(250, 72));
+        tableGiaovien.setRowHeight(18);
+        tableGiaovien.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane3.setViewportView(tableGiaovien);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -458,7 +522,7 @@ public class AdminForm extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(10, 25, 10, 25);
         jPanel12.add(label9, gridBagConstraints);
 
-        jTextField7.setColumns(20);
+        txtIDGV.setColumns(20);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 2;
@@ -466,7 +530,7 @@ public class AdminForm extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 2.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 25, 10, 25);
-        jPanel12.add(jTextField7, gridBagConstraints);
+        jPanel12.add(txtIDGV, gridBagConstraints);
 
         label10.setText("User name:");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -475,7 +539,7 @@ public class AdminForm extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(10, 25, 10, 25);
         jPanel12.add(label10, gridBagConstraints);
 
-        jTextField8.setColumns(20);
+        txtUserGV.setColumns(20);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 2;
@@ -483,7 +547,7 @@ public class AdminForm extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 2.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 25, 10, 25);
-        jPanel12.add(jTextField8, gridBagConstraints);
+        jPanel12.add(txtUserGV, gridBagConstraints);
 
         label11.setText("Password: ");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -492,7 +556,7 @@ public class AdminForm extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(10, 25, 10, 25);
         jPanel12.add(label11, gridBagConstraints);
 
-        jTextField9.setColumns(20);
+        txtPassGV.setColumns(20);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 2;
@@ -500,42 +564,62 @@ public class AdminForm extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 2.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 25, 10, 25);
-        jPanel12.add(jTextField9, gridBagConstraints);
+        jPanel12.add(txtPassGV, gridBagConstraints);
 
         jPanel13.setBackground(new java.awt.Color(255, 255, 255));
         jPanel13.setLayout(new java.awt.GridBagLayout());
 
-        jButton13.setText("Thêm");
-        jButton13.setMargin(new java.awt.Insets(2, 25, 2, 25));
+        btnAddGV.setText("Thêm");
+        btnAddGV.setMargin(new java.awt.Insets(2, 25, 2, 25));
+        btnAddGV.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddGVActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
-        jPanel13.add(jButton13, gridBagConstraints);
+        jPanel13.add(btnAddGV, gridBagConstraints);
 
-        jButton14.setText("Sửa");
-        jButton14.setMargin(new java.awt.Insets(2, 25, 2, 25));
+        btnEditGV.setText("Sửa");
+        btnEditGV.setMargin(new java.awt.Insets(2, 25, 2, 25));
+        btnEditGV.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditGVActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
-        jPanel13.add(jButton14, gridBagConstraints);
+        jPanel13.add(btnEditGV, gridBagConstraints);
 
-        jButton15.setText("Xóa");
-        jButton15.setMargin(new java.awt.Insets(2, 25, 2, 25));
+        btnDelGV.setText("Xóa");
+        btnDelGV.setMargin(new java.awt.Insets(2, 25, 2, 25));
+        btnDelGV.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDelGVActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
-        jPanel13.add(jButton15, gridBagConstraints);
+        jPanel13.add(btnDelGV, gridBagConstraints);
 
-        jButton16.setText("Reset");
-        jButton16.setMargin(new java.awt.Insets(2, 25, 2, 25));
+        btnResetGV.setText("Reset");
+        btnResetGV.setMargin(new java.awt.Insets(2, 25, 2, 25));
+        btnResetGV.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetGVActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
-        jPanel13.add(jButton16, gridBagConstraints);
+        jPanel13.add(btnResetGV, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
@@ -590,6 +674,136 @@ public class AdminForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnAddAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddAdminActionPerformed
+        // TODO add your handling code here:
+        String sql = "INSERT INTO project.admin (idad, user, pass) VALUES (?, ?, ?)";
+				try {
+					if(txtIDAD.getText().length()==0){
+						JOptionPane.showMessageDialog(null, "ID admin không được để trống !");
+					}else if(txtUserAD.getText().length()==0){
+						JOptionPane.showMessageDialog(null, "Username không được để trống !");
+					}else if(txtPassAD.getText().length()==0){
+						JOptionPane.showMessageDialog(null, "Password không được để trống !");
+					}else{
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, txtIDAD.getText());
+					stmt.setString(2, txtUserAD.getText());
+					stmt.setString(3, txtPassAD.getText());
+					stmt.executeUpdate();
+					}
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "ID đã tồn tại !" );
+				}
+				showAdmin();
+    }//GEN-LAST:event_btnAddAdminActionPerformed
+
+    private void btnEditAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditAdminActionPerformed
+        // TODO add your handling code here:
+        String sql = "UPDATE project.admin SET user=?, pass=? WHERE idad=?";
+				try {
+					if(txtIDAD.getText().length()==0){
+						JOptionPane.showMessageDialog(null, "ID admin không được để trống !");
+					}else if(txtUserAD.getText().length()==0){
+						JOptionPane.showMessageDialog(null, "Username không được để trống !");
+					}else if(txtPassAD.getText().length()==0){
+						JOptionPane.showMessageDialog(null, "Password không được để trống !");
+					}else{
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, txtIDAD.getText());
+					stmt.setString(2, txtUserAD.getText());
+					stmt.setString(3, txtPassAD.getText());
+					stmt.executeUpdate();
+					}
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "ID đã tồn tại !");
+				}
+				showAdmin();
+    }//GEN-LAST:event_btnEditAdminActionPerformed
+
+    private void btnDeleteAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteAdminActionPerformed
+        // TODO add your handling code here:
+        String sql = "DELETE FROM project.admin WHERE idad=?";
+        try {
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, txtIDAD.getText());
+					int reponse = JOptionPane.showConfirmDialog(this,
+							"Bạn có chắc chắn admin " + txtUserAD.getText() + " không?", "Delete person",
+							JOptionPane.YES_NO_OPTION);
+					String message = "?";
+					switch (reponse) {
+					case JOptionPane.YES_OPTION:
+						message = "Xóa admin " + txtUserAD.getText() + " thành công!";
+						stmt.executeUpdate();
+						break;
+					case JOptionPane.NO_OPTION:
+						message = "Không xóa admin " + txtUserAD.getText();
+						break;
+					}
+					JOptionPane.showMessageDialog(this, message);
+				} catch (Exception e2) {
+					e2.printStackTrace();
+				}
+				showAdmin();
+    }//GEN-LAST:event_btnDeleteAdminActionPerformed
+
+    private void btnResetAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetAdminActionPerformed
+        // TODO add your handling code here:
+        txtIDAD.setText("");
+        txtUserAD.setText("");
+        txtPassAD.setText("");
+    }//GEN-LAST:event_btnResetAdminActionPerformed
+
+    private void btnAddGiaovuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddGiaovuActionPerformed
+        // TODO add your handling code here:
+        String sql = "INSERT INTO project.giaovu (idgvu, user, pass) VALUES (?, ?, ?)";
+				try {
+					if(txtIDAD.getText().length()==0){
+						JOptionPane.showMessageDialog(null, "ID giáo vụ không được để trống !");
+					}else if(txtUserAD.getText().length()==0){
+						JOptionPane.showMessageDialog(null, "Username không được để trống !");
+					}else if(txtPassAD.getText().length()==0){
+						JOptionPane.showMessageDialog(null, "Password không được để trống !");
+					}else{
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, txtIDAD.getText());
+					stmt.setString(2, txtUserAD.getText());
+					stmt.setString(3, txtPassAD.getText());
+					stmt.executeUpdate();
+					}
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "ID đã tồn tại !" );
+				}
+				showAdmin();
+    }//GEN-LAST:event_btnAddGiaovuActionPerformed
+
+    private void btnEditGiaovuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditGiaovuActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEditGiaovuActionPerformed
+
+    private void btnDelGiaovuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelGiaovuActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDelGiaovuActionPerformed
+
+    private void btnResetGiaovuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetGiaovuActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnResetGiaovuActionPerformed
+
+    private void btnAddGVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddGVActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAddGVActionPerformed
+
+    private void btnEditGVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditGVActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEditGVActionPerformed
+
+    private void btnDelGVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelGVActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDelGVActionPerformed
+
+    private void btnResetGVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetGVActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnResetGVActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -624,20 +838,108 @@ public class AdminForm extends javax.swing.JFrame {
             }
         });
     }
+    
+    public void showAdmin() {
+		// Name Column table
+		Vector cols = new Vector();
+		cols.addElement("ID Admin");
+		cols.addElement("Username");
+		cols.addElement("Password");
+
+		// Data table
+		Vector data = new Vector();
+		String sql = "SELECT * FROM project.admin";
+		try {
+			stmt = conn.prepareStatement(sql);
+			rs = stmt.executeQuery();
+			int row = 0;
+			while (rs.next()) {
+				Vector admin = new Vector();
+				admin.addElement(rs.getString("idad"));
+				admin.addElement(rs.getString("user"));
+				admin.addElement(rs.getString("pass"));
+
+				data.add(admin);
+			}
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		tableAdmin.setModel(new DefaultTableModel(data, cols));
+	}
+
+	public void showGiaovien() {
+		// Name Column table
+		Vector cols = new Vector();
+		cols.addElement("ID giáo viên");
+		cols.addElement("Username");
+		cols.addElement("Password");
+
+		// Data table
+		Vector data = new Vector();
+		String sql = "SELECT * FROM project.giaovien";
+		try {
+			stmt = conn.prepareStatement(sql);
+			rs = stmt.executeQuery();
+			int row = 0;
+			while (rs.next()) {
+				Vector giaovien = new Vector();
+				giaovien.addElement(rs.getString("idgv"));
+				giaovien.addElement(rs.getString("hoten"));
+				giaovien.addElement(rs.getString("pass"));
+
+				data.add(giaovien);
+			}
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		tableGiaovien.setModel(new DefaultTableModel(data, cols));
+	}
+
+	public void showGiaovu() {
+		// Name Column table
+		Vector cols = new Vector();
+		cols.addElement("ID giáo vụ");
+		cols.addElement("Username");
+		cols.addElement("Password");
+
+		// Data table
+		Vector data = new Vector();
+		String sql = "SELECT * FROM project.giaovu";
+		try {
+			stmt = conn.prepareStatement(sql);
+			rs = stmt.executeQuery();
+			int row = 0;
+			while (rs.next()) {
+				Vector admin = new Vector();
+				admin.addElement(rs.getString("idgvu"));
+				admin.addElement(rs.getString("user"));
+				admin.addElement(rs.getString("pass"));
+
+				data.add(admin);
+			}
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		tableGiaovu.setModel(new DefaultTableModel(data, cols));
+	}
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
-    private javax.swing.JButton jButton12;
-    private javax.swing.JButton jButton13;
-    private javax.swing.JButton jButton14;
-    private javax.swing.JButton jButton15;
-    private javax.swing.JButton jButton16;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
+    private javax.swing.JButton btnAddAdmin;
+    private javax.swing.JButton btnAddGV;
+    private javax.swing.JButton btnAddGiaovu;
+    private javax.swing.JButton btnDelGV;
+    private javax.swing.JButton btnDelGiaovu;
+    private javax.swing.JButton btnDeleteAdmin;
+    private javax.swing.JButton btnEditAdmin;
+    private javax.swing.JButton btnEditGV;
+    private javax.swing.JButton btnEditGiaovu;
+    private javax.swing.JButton btnResetAdmin;
+    private javax.swing.JButton btnResetGV;
+    private javax.swing.JButton btnResetGiaovu;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
@@ -657,18 +959,6 @@ public class AdminForm extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
-    private javax.swing.JTextField jTextField9;
     private java.awt.Label label1;
     private java.awt.Label label10;
     private java.awt.Label label11;
@@ -679,6 +969,18 @@ public class AdminForm extends javax.swing.JFrame {
     private java.awt.Label label7;
     private java.awt.Label label8;
     private java.awt.Label label9;
+    private javax.swing.JTable tableAdmin;
+    private javax.swing.JTable tableGiaovien;
+    private javax.swing.JTable tableGiaovu;
+    private javax.swing.JTextField txtIDAD;
+    private javax.swing.JTextField txtIDGV;
+    private javax.swing.JTextField txtIDGiaovu;
+    private javax.swing.JTextField txtPassAD;
+    private javax.swing.JTextField txtPassGV;
+    private javax.swing.JTextField txtPassGiaovu;
+    private javax.swing.JTextField txtUserAD;
+    private javax.swing.JTextField txtUserGV;
+    private javax.swing.JTextField txtUserGiaovu;
     private java.awt.Label user;
     // End of variables declaration//GEN-END:variables
 }
