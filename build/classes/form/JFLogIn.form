@@ -254,7 +254,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtName">
+        <Component class="javax.swing.JTextField" name="txtUsername">
           <Properties>
             <Property name="columns" type="int" value="20"/>
             <Property name="horizontalAlignment" type="int" value="2"/>
@@ -265,7 +265,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="javax.swing.JPasswordField" name="txtPass">
+        <Component class="javax.swing.JPasswordField" name="txtPassword">
           <Properties>
             <Property name="columns" type="int" value="20"/>
             <Property name="horizontalAlignment" type="int" value="2"/>

@@ -2,7 +2,10 @@ package form;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import javax.swing.JOptionPane;
+import model.Login;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -19,9 +22,17 @@ public class JFLogIn extends javax.swing.JFrame {
     /**
      * Creates new form JFLogIn
      */
+    private Connection conn;
+    private PreparedStatement stmt;
+    private ResultSet rs;
     public JFLogIn() {
         initComponents();
         this.setLocationRelativeTo(null);
+        try {
+			conn = DBUtil.getConnection();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
 
     /**
@@ -42,8 +53,8 @@ public class JFLogIn extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         label1 = new java.awt.Label();
         label2 = new java.awt.Label();
-        txtName = new javax.swing.JTextField();
-        txtPass = new javax.swing.JPasswordField();
+        txtUsername = new javax.swing.JTextField();
+        txtPassword = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1920, 1080));
@@ -99,21 +110,21 @@ public class JFLogIn extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel1.add(label2, gridBagConstraints);
 
-        txtName.setColumns(20);
-        txtName.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        txtUsername.setColumns(20);
+        txtUsername.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(txtName, gridBagConstraints);
+        jPanel1.add(txtUsername, gridBagConstraints);
 
-        txtPass.setColumns(20);
-        txtPass.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        txtPassword.setColumns(20);
+        txtPassword.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(txtPass, gridBagConstraints);
+        jPanel1.add(txtPassword, gridBagConstraints);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
@@ -121,20 +132,36 @@ public class JFLogIn extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEnterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnterActionPerformed
-        // TODO add your handling code here:
-        try
-        {
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/project","root","");
-
-            JOptionPane.showMessageDialog(null,"connected with "+con.toString());
-
-        }
-        catch(Exception e)
-        {
-            JOptionPane.showMessageDialog(null,"not connect to server and message is "+e.getMessage());
-        }
-        new JFMainForm().setVisible(true);
-        this.setVisible(false);
+        String sqlsv = "SELECT * FROM `sinhvien` WHERE hoten=? AND idsv=? ";
+				try {
+					stmt = conn.prepareStatement(sqlsv);
+					if (txtUsername.getText().toString().length() == 0) {
+						JOptionPane.showMessageDialog(null, "Username không được để trống !");
+					} else if (txtPassword.getText().toString().length() == 0) {
+						JOptionPane.showMessageDialog(null, "Password không được để trống !");
+					} else {
+						stmt.setString(1, txtUsername.getText());
+						stmt.setString(2, txtPassword.getText());
+						rs = stmt.executeQuery();
+						if (rs.next()) {
+							String a = txtUsername.getText(), b = rs.getString("hoten");
+							if (a.equals(b)) {
+                                                            Login login = new Login(rs.getString("hoten"), rs.getString("idsv"), "Xin chào giáo viên");
+                                                            JOptionPane.showMessageDialog(null, "Đăng nhập thành công!");
+                                                            JFMainForm window = new JFMainForm(login);
+                                                            //window.frmMarkManagerSystem.setVisible(true);
+                                                            //window.tabbedPane.remove(window.quan_ly); //Xoa tab ql
+                                                            this.dispose();
+							}else{
+								JOptionPane.showMessageDialog(null, "Username gần đúng !");
+							}
+						} else {
+							giaovien();
+						}
+					}
+				} catch (Exception e2) {
+					JOptionPane.showMessageDialog(null, "Lỗi đăng nhập \n" + e2);
+				}
     }//GEN-LAST:event_btnEnterActionPerformed
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
@@ -176,6 +203,90 @@ public class JFLogIn extends javax.swing.JFrame {
             }
         });
     }
+    
+    public void giaovien() {
+		String sqlgv = "SELECT * FROM `giaovien` WHERE user=? AND pass=?";
+		try {
+			stmt = conn.prepareStatement(sqlgv);
+			stmt.setString(1, txtUsername.getText());
+			stmt.setString(2, txtPassword.getText());
+			rs = stmt.executeQuery();
+			if (rs.next()) {
+				String a = txtUsername.getText(), b = rs.getString("hoten");
+				if (a.equals(b)) {
+					Login login = new Login(rs.getString("hoten"), rs.getString("idgv"), "Xin chào giáo viên ");
+					JOptionPane.showMessageDialog(null, "Đăng nhập thành công!");
+					JFMainForm window = new JFMainForm();
+					this.dispose();
+					window.setVisible(true);
+//					window.btnqlgiaovien.setEnabled(false); // Tat ql gv
+//					window.btnqllop.setEnabled(false); // Tat quan ly lop
+//					window.btnqlkhoa.setEnabled(false); // Tat quan ly khoa
+//					window.btnqlmon.setEnabled(false); // Tat quan ly mon
+				} else {
+					JOptionPane.showMessageDialog(null, "Username giáo viên gần đúng !");
+				}
+			} else {
+				giaovu();
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Lỗi đăng nhập \n"+e.toString());
+		}
+
+	}
+
+	public void giaovu() {
+		String sqlad = "SELECT * FROM `giaovu` WHERE user=? AND pass=?";
+		try {
+			stmt = conn.prepareStatement(sqlad);
+			stmt.setString(1, txtUsername.getText());
+			stmt.setString(2, txtPassword.getText());
+			rs = stmt.executeQuery();
+			if (rs.next()) {
+				String a = txtUsername.getText(), b = rs.getString("user");
+				if (a.equals(b)) {
+				Login login = new Login(rs.getString("user"), rs.getString("idgvu"), "Xin chào Giáo Vụ");
+				JOptionPane.showMessageDialog(null, "Đăng nhập thành công!");
+				JFMainForm window = new JFMainForm();
+				this.dispose();
+//				window.frmMarkManagerSystem.setVisible(true);
+//				window.btnqldiem.setEnabled(false);
+				}else{
+					JOptionPane.showMessageDialog(null, "Username giáo vụ gần đúng !");
+				}
+			} else {
+				admin();
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Lỗi đăng nhập\n"+e.toString());
+		}
+	}
+
+	public void admin() {
+		String sqlad = "SELECT * FROM `admin` WHERE user=? AND pass=?";
+		try {
+			stmt = conn.prepareStatement(sqlad);
+			stmt.setString(1, txtUsername.getText());
+			stmt.setString(2, txtPassword.getText());
+			rs = stmt.executeQuery();
+			if (rs.next()) {
+				String a = txtUsername.getText(), b = rs.getString("user");
+				if (a.equals(b)) {
+				Login login = new Login(rs.getString("user"), "", "");
+				JOptionPane.showMessageDialog(null, "Đăng nhập thành công!");
+				AdminForm window = new AdminForm(login);
+                                window.setVisible(true);
+				this.dispose();
+				}else{
+					JOptionPane.showMessageDialog(null, "Username admin gần đúng !");
+				}
+			} else {
+				JOptionPane.showMessageDialog(null, "Đăng nhập không thành công!");
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Lỗi đăng nhập\n"+e.toString());
+		}
+	}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEnter;
@@ -186,7 +297,7 @@ public class JFLogIn extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private java.awt.Label label1;
     private java.awt.Label label2;
-    private javax.swing.JTextField txtName;
-    private javax.swing.JPasswordField txtPass;
+    private javax.swing.JPasswordField txtPassword;
+    private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 }
