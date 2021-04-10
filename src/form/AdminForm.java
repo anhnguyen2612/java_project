@@ -757,8 +757,31 @@ public class AdminForm extends javax.swing.JFrame {
         // TODO add your handling code here:
         String sql = "INSERT INTO project.giaovu (idgvu, user, pass) VALUES (?, ?, ?)";
 				try {
-					if(txtIDAD.getText().length()==0){
+					if(txtIDGiaovu.getText().length()==0){
 						JOptionPane.showMessageDialog(null, "ID giáo vụ không được để trống !");
+					}else if(txtUserGiaovu.getText().length()==0){
+						JOptionPane.showMessageDialog(null, "Username không được để trống !");
+					}else if(txtPassGiaovu.getText().length()==0){
+						JOptionPane.showMessageDialog(null, "Password không được để trống !");
+					}else{
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, txtIDGiaovu.getText());
+					stmt.setString(2, txtUserGiaovu.getText());
+					stmt.setString(3, txtPassGiaovu.getText());
+					stmt.executeUpdate();
+					}
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "ID đã tồn tại !" );
+				}
+				showGiaovu();
+    }//GEN-LAST:event_btnAddGiaovuActionPerformed
+
+    private void btnEditGiaovuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditGiaovuActionPerformed
+        // TODO add your handling code here:
+        String sql = "UPDATE project.admin SET user=?, pass=? WHERE idad=?";
+				try {
+					if(txtIDAD.getText().length()==0){
+						JOptionPane.showMessageDialog(null, "ID admin không được để trống !");
 					}else if(txtUserAD.getText().length()==0){
 						JOptionPane.showMessageDialog(null, "Username không được để trống !");
 					}else if(txtPassAD.getText().length()==0){
@@ -771,13 +794,8 @@ public class AdminForm extends javax.swing.JFrame {
 					stmt.executeUpdate();
 					}
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, "ID đã tồn tại !" );
+					JOptionPane.showMessageDialog(null, "ID đã tồn tại !");
 				}
-				showAdmin();
-    }//GEN-LAST:event_btnAddGiaovuActionPerformed
-
-    private void btnEditGiaovuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditGiaovuActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_btnEditGiaovuActionPerformed
 
     private void btnDelGiaovuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelGiaovuActionPerformed
