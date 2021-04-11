@@ -5,17 +5,21 @@
  */
 package form;
 
+import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Admin
  */
 public class panelQLMon extends javax.swing.JFrame {
-
+ 
     /**
      * Creates new form panelQLMon
      */
     public panelQLMon() {
         initComponents();
+    
     }
 
     /**
