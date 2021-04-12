@@ -42,7 +42,6 @@ public class Login extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 102, 102));
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Admin\\Desktop\\img\\1828453.png")); // NOI18N
         jLabel1.setText("ĐĂNG NHẬP");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -52,7 +51,6 @@ public class Login extends javax.swing.JFrame {
         jLabel3.setText("Mật khẩu: ");
 
         btnLogin.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btnLogin.setIcon(new javax.swing.ImageIcon("C:\\Users\\Admin\\Desktop\\img\\btnlogin.png")); // NOI18N
         btnLogin.setText("Đăng nhập");
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -61,7 +59,6 @@ public class Login extends javax.swing.JFrame {
         });
 
         btnExit.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btnExit.setIcon(new javax.swing.ImageIcon("C:\\Users\\Admin\\Desktop\\img\\btnthoat.png")); // NOI18N
         btnExit.setText("Thoát");
         btnExit.setPreferredSize(new java.awt.Dimension(109, 25));
         btnExit.addActionListener(new java.awt.event.ActionListener() {

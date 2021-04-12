@@ -5,6 +5,10 @@
  */
 package form.FormMoi;
 
+import form.panelQLDiem;
+import form.panelQLKhoa;
+import form.panelQLGiaoVien;
+import form.panelQLSinhVien;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;

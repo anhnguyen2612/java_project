@@ -3,10 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package form.FormMoi;
+package form;
 
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.Vector;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
@@ -19,39 +22,14 @@ public class panelQLKhoa extends javax.swing.JFrame {
     /**
      * Creates new form panelQLLop
      */
+    private Connection conn;
+    private PreparedStatement stmt;
+    private ResultSet rs;
     public panelQLKhoa() {
         initComponents();
-        setWindowPosition(this, 1200);
+        
     }
-    private void setWindowPosition(JFrame window, int screen)
-{        
-    GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
-    GraphicsDevice[] allDevices = env.getScreenDevices();
-    int topLeftX, topLeftY, screenX, screenY, windowPosX, windowPosY;
-
-    if (screen < allDevices.length && screen > -1)
-    {
-        topLeftX = allDevices[screen].getDefaultConfiguration().getBounds().x;
-        topLeftY = allDevices[screen].getDefaultConfiguration().getBounds().y;
-
-        screenX  = allDevices[screen].getDefaultConfiguration().getBounds().width;
-        screenY  = allDevices[screen].getDefaultConfiguration().getBounds().height;
-    }
-    else
-    {
-        topLeftX = allDevices[0].getDefaultConfiguration().getBounds().x;
-        topLeftY = allDevices[0].getDefaultConfiguration().getBounds().y;
-
-        screenX  = allDevices[0].getDefaultConfiguration().getBounds().width;
-        screenY  = allDevices[0].getDefaultConfiguration().getBounds().height;
-    }
-
-    windowPosX = ((screenX - window.getWidth())  ) + topLeftX;
-    windowPosY = ((screenY - window.getHeight()) ) + topLeftY;
-
-    window.setLocation(windowPosX, windowPosY);
-}
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -119,22 +97,18 @@ public class panelQLKhoa extends javax.swing.JFrame {
         jPanel4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         btnThem.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnThem.setIcon(new javax.swing.ImageIcon("C:\\Users\\Admin\\Desktop\\img\\btnThem.png")); // NOI18N
         btnThem.setText("Thêm");
         btnThem.setPreferredSize(new java.awt.Dimension(63, 23));
 
         jButton2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButton2.setIcon(new javax.swing.ImageIcon("C:\\Users\\Admin\\Desktop\\img\\btnSua.png")); // NOI18N
         jButton2.setText("Sửa");
         jButton2.setPreferredSize(new java.awt.Dimension(72, 23));
 
         btnXoa.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnXoa.setIcon(new javax.swing.ImageIcon("C:\\Users\\Admin\\Desktop\\img\\btnXoa.png")); // NOI18N
         btnXoa.setText("Xóa");
         btnXoa.setPreferredSize(new java.awt.Dimension(63, 23));
 
         btnReset.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnReset.setIcon(new javax.swing.ImageIcon("C:\\Users\\Admin\\Desktop\\img\\btnReset.png")); // NOI18N
         btnReset.setText("Reset");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -169,12 +143,10 @@ public class panelQLKhoa extends javax.swing.JFrame {
         jPanel5.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         btnSelectAll.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnSelectAll.setIcon(new javax.swing.ImageIcon("C:\\Users\\Admin\\Desktop\\img\\btnSelectAll.png")); // NOI18N
         btnSelectAll.setText("Select All");
         btnSelectAll.setPreferredSize(new java.awt.Dimension(63, 23));
 
         btnUnselect.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnUnselect.setIcon(new javax.swing.ImageIcon("C:\\Users\\Admin\\Desktop\\img\\btnUnselect.png")); // NOI18N
         btnUnselect.setText("Unselect");
         btnUnselect.setPreferredSize(new java.awt.Dimension(63, 23));
 
@@ -207,11 +179,9 @@ public class panelQLKhoa extends javax.swing.JFrame {
         cbSapXep.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         btnZA.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnZA.setIcon(new javax.swing.ImageIcon("C:\\Users\\Admin\\Desktop\\img\\btnZA.png")); // NOI18N
         btnZA.setPreferredSize(new java.awt.Dimension(63, 23));
 
         btnAZ.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnAZ.setIcon(new javax.swing.ImageIcon("C:\\Users\\Admin\\Desktop\\img\\btnAZ.png")); // NOI18N
         btnAZ.setPreferredSize(new java.awt.Dimension(63, 23));
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
