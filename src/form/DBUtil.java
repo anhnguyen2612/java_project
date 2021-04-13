@@ -13,7 +13,7 @@ import java.sql.SQLException;
  *
  * @author MYPCDESU
  */
-class DBUtil {
+public class DBUtil {
     private static Connection connection = null;
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 	static final String DB_URL = "jdbc:mysql://localhost:3306/project";

@@ -125,6 +125,11 @@ public class panelQLDiem extends javax.swing.JFrame {
         btnThem.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnThem.setText("Thêm");
         btnThem.setPreferredSize(new java.awt.Dimension(63, 23));
+        btnThem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemActionPerformed(evt);
+            }
+        });
 
         jButton2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButton2.setText("Sửa");
@@ -203,12 +208,12 @@ public class panelQLDiem extends javax.swing.JFrame {
         jLabel3.setText("Sắp xếp:");
 
         btnZA.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnZA.setText("Z -> A");
         btnZA.setPreferredSize(new java.awt.Dimension(63, 23));
 
         btnAZ.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnAZ.setText("A -> Z");
         btnAZ.setPreferredSize(new java.awt.Dimension(63, 23));
-
-        cbSapXep.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -240,10 +245,6 @@ public class panelQLDiem extends javax.swing.JFrame {
                 .addContainerGap(13, Short.MAX_VALUE))
         );
 
-        comboMakhoa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        comboHeDaoTao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel9.setText("Hệ đào tạo:");
 
@@ -255,8 +256,6 @@ public class panelQLDiem extends javax.swing.JFrame {
 
         jLabel16.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel16.setText("Hệ số:");
-
-        comboMaLop.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -396,6 +395,10 @@ public class panelQLDiem extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnThemActionPerformed
 
     /**
      * @param args the command line arguments

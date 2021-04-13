@@ -207,9 +207,11 @@ public class panelQLGiaoVien extends javax.swing.JFrame {
         cbSapXep.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         btnZA.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnZA.setText("Z -> A");
         btnZA.setPreferredSize(new java.awt.Dimension(63, 23));
 
         btnAZ.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnAZ.setText("A -> Z");
         btnAZ.setPreferredSize(new java.awt.Dimension(63, 23));
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);

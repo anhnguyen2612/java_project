@@ -11,9 +11,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Vector;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import model.Sinhvien;
+import model.SinhvienDAO;
 
 /**
  *
@@ -34,6 +37,8 @@ public class panelQLSinhVien extends javax.swing.JFrame {
 			e.printStackTrace();
 		}
         showTableSinhVien();
+        cbSapXep.setModel(new DefaultComboBoxModel(
+				new String[] { "idsv", "hoten", "idlop", "idkhoa","hedt", "ngaysinh", "diachi", "gioitinh", "sdt" }));
         
     }
        /**
@@ -59,7 +64,7 @@ public class panelQLSinhVien extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         btnThem = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnEdit = new javax.swing.JButton();
         btnXoa = new javax.swing.JButton();
         btnReset = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
@@ -127,17 +132,37 @@ public class panelQLSinhVien extends javax.swing.JFrame {
         btnThem.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnThem.setText("Thêm");
         btnThem.setPreferredSize(new java.awt.Dimension(63, 23));
+        btnThem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemActionPerformed(evt);
+            }
+        });
 
-        jButton2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButton2.setText("Sửa");
-        jButton2.setPreferredSize(new java.awt.Dimension(72, 23));
+        btnEdit.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnEdit.setText("Sửa");
+        btnEdit.setPreferredSize(new java.awt.Dimension(72, 23));
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
 
         btnXoa.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnXoa.setText("Xóa");
         btnXoa.setPreferredSize(new java.awt.Dimension(63, 23));
+        btnXoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaActionPerformed(evt);
+            }
+        });
 
         btnReset.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnReset.setText("Reset");
+        btnReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -150,7 +175,7 @@ public class panelQLSinhVien extends javax.swing.JFrame {
                     .addComponent(btnXoa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 99, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnEdit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnReset, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -160,7 +185,7 @@ public class panelQLSinhVien extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnReset)
@@ -173,10 +198,20 @@ public class panelQLSinhVien extends javax.swing.JFrame {
         btnSelectAll.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnSelectAll.setText("Select All");
         btnSelectAll.setPreferredSize(new java.awt.Dimension(63, 23));
+        btnSelectAll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSelectAllActionPerformed(evt);
+            }
+        });
 
         btnUnselect.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnUnselect.setText("Unselect");
         btnUnselect.setPreferredSize(new java.awt.Dimension(63, 23));
+        btnUnselect.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUnselectActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -207,10 +242,22 @@ public class panelQLSinhVien extends javax.swing.JFrame {
         cbSapXep.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         btnZA.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnZA.setText("Z -> A");
         btnZA.setPreferredSize(new java.awt.Dimension(63, 23));
+        btnZA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnZAActionPerformed(evt);
+            }
+        });
 
         btnAZ.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnAZ.setText("A -> Z");
         btnAZ.setPreferredSize(new java.awt.Dimension(63, 23));
+        btnAZ.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAZActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -450,6 +497,261 @@ public class panelQLSinhVien extends javax.swing.JFrame {
 				} catch (Exception e) {}
     }//GEN-LAST:event_tableQLsinhvienMousePressed
 
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        // TODO add your handling code here:
+        Sinhvien sinhvien = new Sinhvien();
+				if (txtMSV.getText().length() == 0) {
+					JOptionPane.showMessageDialog(null, "Mã sinh viên không đươc để trống !");
+				} else if (txtHoTen.getText().length() == 0) {
+					JOptionPane.showMessageDialog(null, "Tên sinh viên không đươc để trống !");
+				} else if (comboMaLop.getSelectedItem().toString() == null
+						|| comboMakhoa.getSelectedItem().toString() == null
+						|| comboHeDaoTao.getSelectedItem().toString() == null) {
+					JOptionPane.showMessageDialog(null, "Hộp ch�?n không đươc để trống !");
+				} else if (txtDiaChi.getText().length() == 0) {
+					JOptionPane.showMessageDialog(null, "Địa chỉ không được để trống !");
+				} else if (cbNam.isSelected() == false && cbNu.isSelected() == false) {
+					JOptionPane.showMessageDialog(null, "Giới tính vui lòng ch�?n Nam hoặc Nữ !");
+				} else if (txtSDT.getText().matches("(.*)[a-zA-Z](.*)")) {
+					JOptionPane.showMessageDialog(null, "Số điện thoại không được nhập kí tự chữ !");
+				} else if (txtSDT.getText().length() <= 9 || txtSDT.getText().length() >= 11) {
+					JOptionPane.showMessageDialog(null, "Số điện thoại phải là 9 hoặc 11 số !");
+				} else {
+					//Date datesv = txtNgaysinhsinhvien.getDate();
+					//String datesvinput = new SimpleDateFormat("yyyy-MM-dd").format(datesv);
+					sinhvien.setIDsinhvien(txtMSV.getText());
+					sinhvien.setHoten(txtHoTen.getText());
+					sinhvien.setIDlop(comboMaLop.getSelectedItem().toString());
+					sinhvien.setIDkhoa(comboMakhoa.getSelectedItem().toString());
+					sinhvien.setHedaotao(comboHeDaoTao.getSelectedItem().toString());
+					//sinhvien.setNgaysinh(datesvinput);
+					sinhvien.setDiachi(txtDiaChi.getText());
+					if (cbNam.isSelected()) {
+						sinhvien.setGioitinh("Nam");
+					} else {
+						sinhvien.setGioitinh("Nu");
+					}
+					sinhvien.setSdt(txtSDT.getText());
+					SinhvienDAO sinhvienDAO = new SinhvienDAO();
+					sinhvienDAO.addSinhVien(sinhvien);
+				}
+				showTableSinhVien(); // Refresh
+    }//GEN-LAST:event_btnThemActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        // TODO add your handling code here:
+        Sinhvien sinhvien = new Sinhvien();
+        if (txtMSV.getText().length() == 0) {
+            JOptionPane.showMessageDialog(null, "Mã sinh viên không đươc để trống !");
+        } else if (txtHoTen.getText().length() == 0) {
+            JOptionPane.showMessageDialog(null, "Tên sinh viên không đươc để trống !");
+        } else if (comboMaLop.getSelectedItem().toString() == null
+                || comboMakhoa.getSelectedItem().toString() == null
+                || comboHeDaoTao.getSelectedItem().toString() == null) {
+            JOptionPane.showMessageDialog(null, "Hộp ch�?n không đươc để trống !");
+        } else if (txtDiaChi.getText().length() == 0) {
+                JOptionPane.showMessageDialog(null, "�?ịa chỉ không được để trống !");
+        } else if (cbNam.isSelected() == false && cbNu.isSelected() == false) {
+                JOptionPane.showMessageDialog(null, "Giới tính vui lòng ch�?n Nam hoặc Nữ !");
+        } else if (txtSDT.getText().matches("(.*)[a-zA-Z](.*)")) {
+                JOptionPane.showMessageDialog(null, "Số điện thoại không được nhập kí tự chữ !");
+        } else if (txtSDT.getText().length() <= 9 || txtSDT.getText().length() >= 11) {
+                JOptionPane.showMessageDialog(null, "Số điện thoại phải là 9 hoặc 11 số !");
+        } else {
+            sinhvien.setIDsinhvien(txtMSV.getText());
+            sinhvien.setHoten(txtHoTen.getText());
+            sinhvien.setIDlop(comboMaLop.getSelectedItem().toString());
+            sinhvien.setIDkhoa(comboMakhoa.getSelectedItem().toString());
+            sinhvien.setHedaotao(comboHeDaoTao.getSelectedItem().toString());
+            sinhvien.setNgaysinh(txtNgaySinh.getText());
+            sinhvien.setDiachi(txtDiaChi.getText());
+            if (cbNam.isSelected()) {
+                    sinhvien.setGioitinh("Nam");
+            } else {
+                    sinhvien.setGioitinh("Nu");
+            }
+            sinhvien.setSdt(txtSDT.getText());
+            SinhvienDAO sinhvienDAO = new SinhvienDAO();
+            sinhvienDAO.editSinhVien(sinhvien);
+        }
+        showTableSinhVien(); // Refresh
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+        // TODO add your handling code here:
+        SinhvienDAO sinhvienDAO = new SinhvienDAO();
+        sinhvienDAO.deleteSinhVien(tableQLsinhvien);
+        showTableSinhVien();
+    }//GEN-LAST:event_btnXoaActionPerformed
+
+    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
+        // TODO add your handling code here:
+        txtMSV.setText(null);
+        txtHoTen.setText(null);
+        txtNgaySinh.setText(null);
+        txtDiaChi.setText(null);
+        txtSDT.setText(null);
+    }//GEN-LAST:event_btnResetActionPerformed
+
+    private void btnSelectAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectAllActionPerformed
+        // Clear table
+		tableQLsinhvien.setModel(new DefaultTableModel());
+		// Model for Table
+		DefaultTableModel model = new DefaultTableModel() {
+
+			public Class<?> getColumnClass(int column) {
+				switch (column) {
+				case 0:
+					return Boolean.class;
+				default:
+					return String.class;
+				}
+			}
+		};
+		tableQLsinhvien.setModel(model);
+		// Add Column
+		model.addColumn("Select");
+		model.addColumn("ID Sinh Vien");
+		model.addColumn("Ho Ten");
+		model.addColumn("ID Lop");
+		model.addColumn("ID Khoa");
+		model.addColumn("He Dao Tao");
+		model.addColumn("Ngay Sinh");
+		model.addColumn("Dia Chi");
+		model.addColumn("Gioi Tinh");
+		model.addColumn("So Dien Thoai");
+		String sql = "select * from sinhvien";
+		try {
+			stmt = conn.prepareStatement(sql);
+			rs = stmt.executeQuery(sql);
+			int row = 0;
+			while ((rs != null) && (rs.next())) {
+				model.addRow(new Object[0]);
+				model.setValueAt(true, row, 0); // Checkbox
+				model.setValueAt(rs.getString("idsv"), row, 1);
+				model.setValueAt(rs.getString("hoten"), row, 2);
+				model.setValueAt(rs.getString("idlop"), row, 3);
+				model.setValueAt(rs.getString("idkhoa"), row, 4);
+				model.setValueAt(rs.getString("hedt"), row, 5);
+				model.setValueAt(rs.getDate("ngaysinh"), row, 6);
+				model.setValueAt(rs.getString("diachi"), row, 7);
+				model.setValueAt(rs.getString("gioitinh"), row, 8);
+				model.setValueAt(rs.getString("sdt"), row, 9);
+				row++;
+                                comboMaLop.addItem(rs.getString("idlop"));
+                                comboMakhoa.addItem(rs.getString("idkhoa"));
+                                comboHeDaoTao.addItem(rs.getString("hedt"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    }//GEN-LAST:event_btnSelectAllActionPerformed
+
+    private void btnUnselectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUnselectActionPerformed
+        // TODO add your handling code here:
+        showTableSinhVien();
+    }//GEN-LAST:event_btnUnselectActionPerformed
+
+    private void btnAZActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAZActionPerformed
+        // TODO add your handling code here:
+        // Clear table
+		tableQLsinhvien.setModel(new DefaultTableModel());
+		// Model for Table
+		DefaultTableModel model = new DefaultTableModel() {
+			public Class<?> getColumnClass(int column) {
+				switch (column) {
+				case 0:
+					return Boolean.class;
+				default:
+					return String.class;
+				}
+			}
+		};
+		tableQLsinhvien.setModel(model);
+		// Add Column
+		model.addColumn("Select");
+		model.addColumn("ID Sinh Vien");
+		model.addColumn("Ho Ten");
+		model.addColumn("ID Lop");
+		model.addColumn("ID Khoa");
+		model.addColumn("He Dao Tao");
+		model.addColumn("Ngay Sinh");
+		model.addColumn("Dia Chi");
+		model.addColumn("Gioi Tinh");
+		model.addColumn("So Dien Thoai");
+		String sql = "SELECT * FROM  project.sinhvien ORDER BY " + cbSapXep.getSelectedItem() + " ASC" + ";";
+		try {
+			stmt = conn.prepareStatement(sql);
+			rs = stmt.executeQuery(sql);
+			int row = 0;
+			while ((rs != null) && (rs.next())) {
+				model.addRow(new Object[0]);
+				model.setValueAt(false, row, 0); // Checkbox
+				model.setValueAt(rs.getString("idsv"), row, 1);
+				model.setValueAt(rs.getString("hoten"), row, 2);
+				model.setValueAt(rs.getString("idlop"), row, 3);
+				model.setValueAt(rs.getString("idkhoa"), row, 4);
+				model.setValueAt(rs.getString("hedt"), row, 5);
+				model.setValueAt(rs.getDate("ngaysinh"), row, 6);
+				model.setValueAt(rs.getString("diachi"), row, 7);
+				model.setValueAt(rs.getString("gioitinh"), row, 8);
+				model.setValueAt(rs.getString("sdt"), row, 9);
+				row++;
+			}
+		} catch (Exception e) {
+		}
+    }//GEN-LAST:event_btnAZActionPerformed
+
+    private void btnZAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZAActionPerformed
+        // TODO add your handling code here:
+        // Clear table
+		tableQLsinhvien.setModel(new DefaultTableModel());
+		// Model for Table
+		DefaultTableModel model = new DefaultTableModel() {
+			public Class<?> getColumnClass(int column) {
+				switch (column) {
+				case 0:
+					return Boolean.class;
+				default:
+					return String.class;
+				}
+			}
+		};
+		tableQLsinhvien.setModel(model);
+		// Add Column
+		model.addColumn("Select");
+		model.addColumn("ID Sinh Vien");
+		model.addColumn("Ho Ten");
+		model.addColumn("ID Lop");
+		model.addColumn("ID Khoa");
+		model.addColumn("He Dao Tao");
+		model.addColumn("Ngay Sinh");
+		model.addColumn("Dia Chi");
+		model.addColumn("Gioi Tinh");
+		model.addColumn("So Dien Thoai");
+		String sql = "SELECT * FROM  project.sinhvien ORDER BY " + cbSapXep.getSelectedItem() + " DESC" + ";";
+		try {
+			stmt = conn.prepareStatement(sql);
+			rs = stmt.executeQuery(sql);
+			int row = 0;
+			while ((rs != null) && (rs.next())) {
+				model.addRow(new Object[0]);
+				model.setValueAt(false, row, 0); // Checkbox
+				model.setValueAt(rs.getString("idsv"), row, 1);
+				model.setValueAt(rs.getString("hoten"), row, 2);
+				model.setValueAt(rs.getString("idlop"), row, 3);
+				model.setValueAt(rs.getString("idkhoa"), row, 4);
+				model.setValueAt(rs.getString("hedt"), row, 5);
+				model.setValueAt(rs.getDate("ngaysinh"), row, 6);
+				model.setValueAt(rs.getString("diachi"), row, 7);
+				model.setValueAt(rs.getString("gioitinh"), row, 8);
+				model.setValueAt(rs.getString("sdt"), row, 9);
+				row++;
+			}
+		} catch (Exception e) {
+		}
+    }//GEN-LAST:event_btnZAActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -494,14 +796,14 @@ public class panelQLSinhVien extends javax.swing.JFrame {
 		// Model for Table
 		DefaultTableModel model = new DefaultTableModel() {
 
-			public Class<?> getColumnClass(int column) {
-				switch (column) {
-				case 0:
-					return Boolean.class;
-				default:
-					return String.class;
-				}
-			}
+                public Class<?> getColumnClass(int column) {
+                    switch (column) {
+                    case 0:
+                            return Boolean.class;
+                    default:
+                            return String.class;
+                    }
+                }
 		};
 		tableQLsinhvien.setModel(model);
 		// Add Column
@@ -545,6 +847,7 @@ public class panelQLSinhVien extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAZ;
+    private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnReset;
     private javax.swing.JButton btnSelectAll;
     private javax.swing.JButton btnThem;
@@ -558,7 +861,6 @@ public class panelQLSinhVien extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> comboHeDaoTao;
     private javax.swing.JComboBox<String> comboMaLop;
     private javax.swing.JComboBox<String> comboMakhoa;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
