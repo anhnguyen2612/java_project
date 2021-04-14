@@ -16,6 +16,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Diem;
+import model.DiemDAO;
+import model.Login;
 
 /**
  *
@@ -28,15 +30,29 @@ public class panelQLDiem extends javax.swing.JFrame {
     private Connection conn;
     private PreparedStatement stmt;
     private ResultSet rs;
+    private String id;
     public panelQLDiem() {
         initComponents();
         buttonGroup1.add(radioDat);
         buttonGroup1.add(radioKDat);
         try {
-			conn = DBUtil.getConnection();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+                conn = DBUtil.getConnection();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        showTableDiem();
+        
+    }
+    public panelQLDiem(Login login) {
+        initComponents();
+        id=login.getId();
+        buttonGroup1.add(radioDat);
+        buttonGroup1.add(radioKDat);
+        try {
+                conn = DBUtil.getConnection();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         showTableDiem();
         
     }
@@ -64,13 +80,12 @@ public class panelQLDiem extends javax.swing.JFrame {
         btnSelectAll = new javax.swing.JButton();
         btnUnselect = new javax.swing.JButton();
         comboBox_IDsvdiem = new javax.swing.JComboBox<>();
-        comboBox_Mondiem = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        txtDiemthi = new javax.swing.JTextField();
+        txtDiem15 = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        txtDiem45 = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         radioDat = new javax.swing.JRadioButton();
         radioKDat = new javax.swing.JRadioButton();
@@ -78,6 +93,11 @@ public class panelQLDiem extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         comboBox_IDlopdiem = new javax.swing.JComboBox<>();
+        txtIDmondiem = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        txtTongket = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        comboBox_Mondiem = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableQLdiem = new javax.swing.JTable();
 
@@ -121,6 +141,11 @@ public class panelQLDiem extends javax.swing.JFrame {
         jButton2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButton2.setText("Sửa");
         jButton2.setPreferredSize(new java.awt.Dimension(72, 23));
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         btnXoa.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnXoa.setText("Xóa");
@@ -133,6 +158,11 @@ public class panelQLDiem extends javax.swing.JFrame {
 
         btnReset.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnReset.setText("Reset");
+        btnReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -168,10 +198,20 @@ public class panelQLDiem extends javax.swing.JFrame {
         btnSelectAll.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnSelectAll.setText("Select All");
         btnSelectAll.setPreferredSize(new java.awt.Dimension(63, 23));
+        btnSelectAll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSelectAllActionPerformed(evt);
+            }
+        });
 
         btnUnselect.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnUnselect.setText("Unselect");
         btnUnselect.setPreferredSize(new java.awt.Dimension(63, 23));
+        btnUnselect.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUnselectActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -196,19 +236,17 @@ public class panelQLDiem extends javax.swing.JFrame {
 
         comboBox_IDsvdiem.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        comboBox_Mondiem.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jLabel2.setText("Điểm 15'':");
 
-        jTextField2.setColumns(10);
+        txtDiemthi.setColumns(10);
 
-        jTextField3.setColumns(10);
+        txtDiem15.setColumns(10);
 
         jLabel3.setText("Điểm 45'':");
 
         jLabel4.setText("Điểm thi:");
 
-        jTextField4.setColumns(10);
+        txtDiem45.setColumns(10);
 
         jLabel5.setText("Trạng thái");
 
@@ -224,39 +262,65 @@ public class panelQLDiem extends javax.swing.JFrame {
 
         comboBox_IDlopdiem.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        txtIDmondiem.setColumns(10);
+
+        jLabel9.setText("Tổng kết:");
+
+        txtTongket.setColumns(10);
+
+        jLabel10.setText("Môn học:");
+
+        comboBox_Mondiem.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel8))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(comboBox_IDlopdiem, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(radioDat)
-                                .addGap(18, 18, 18)
-                                .addComponent(radioKDat))
-                            .addComponent(comboBox_Mondiem, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(comboBox_IDsvdiem, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel7))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtDiemthi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtDiem15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtDiem45, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addComponent(radioDat)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(radioKDat))
+                                    .addComponent(txtIDmondiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(9, 9, 9)
+                                .addComponent(jLabel9)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtTongket, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(jPanel3Layout.createSequentialGroup()
+                                    .addComponent(jLabel10)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(comboBox_Mondiem, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel3Layout.createSequentialGroup()
+                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLabel6)
+                                        .addComponent(jLabel8))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(comboBox_IDlopdiem, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(comboBox_IDsvdiem, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -274,29 +338,37 @@ public class panelQLDiem extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(comboBox_Mondiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7))
+                    .addComponent(jLabel10))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(txtIDmondiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDiem15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDiem45, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDiemthi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(radioDat)
                     .addComponent(radioKDat)
                     .addComponent(jLabel5))
-                .addGap(60, 60, 60)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtTongket, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9))
+                .addGap(18, 18, 18)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         tableQLdiem.setModel(new javax.swing.table.DefaultTableModel(
@@ -358,6 +430,9 @@ public class panelQLDiem extends javax.swing.JFrame {
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         // TODO add your handling code here:
+        DiemDAO diemDAO = new DiemDAO();
+        diemDAO.deleteDiem(tableQLdiem);
+        showTableDiem();
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
@@ -365,34 +440,35 @@ public class panelQLDiem extends javax.swing.JFrame {
         Matcher m = null;
         Diem diem = new Diem();
         // Bat loi nguoi dung nhap diem
-        if (comboMaLopBox_IDlopdiem.getSelectedItem() == null || comboBox_Mondiem.getSelectedItem() == null
+        if (comboBox_IDlopdiem.getSelectedItem() == null || comboBox_Mondiem.getSelectedItem() == null
             || comboBox_IDsvdiem.getSelectedItem() == null) {
-            JOptionPane.showMessageDialog(null, "Vui lòng lấy đầy đủ thông tin hộp ch�?n");
+            JOptionPane.showMessageDialog(null, "Vui lòng lấy đầy đủ thông tin ");
         } else if (txtIDmondiem.getText().length() == 0) {
             JOptionPane.showMessageDialog(null, "ID môn không được để trống !");
-        } else if (txtDiemthi15p.getText().length() == 0 || txtDiemthi45p.getText().length() == 0
+        } else if (txtDiem15.getText().length() == 0 || txtDiem45.getText().length() == 0
             || txtDiemthi.getText().length() == 0) {
             JOptionPane.showMessageDialog(null, "Không được để trống ô điểm!");
 
-        } else if (txtDiemthi15p.getText().matches("(.*)[a-zA-Z](.*)")
-            || txtDiemthi45p.getText().matches("(.*)[a-zA-Z](.*)")
-            || txtDiemthi.getText().matches("(.*)[a-zA-Z](.*)")) {
+        } else if (txtDiem15.getText().matches("(.*)[a-zA-Z](.*)")
+            || txtDiem45.getText().matches("(.*)[a-zA-Z](.*)")
+            || txtDiemthi.getText().matches("(.*)[a-zA-Z](.*)")
+            || txtTongket.getText().matches("(.*)[a-zA-Z](.*)")) {
             JOptionPane.showMessageDialog(null, "Không được nhập chữ vào ô điểm!");
-        } else if (Float.parseFloat(txtDiemthi15p.getText()) > 10) {
-            JOptionPane.showMessageDialog(null, "�?iểm 15p không được lớn hơn 10!");
-        } else if (Float.parseFloat(txtDiemthi45p.getText()) > 10) {
-            JOptionPane.showMessageDialog(null, "�?iểm 45p không được lớn hơn 10!");
+        } else if (Float.parseFloat(txtDiem15.getText()) > 10) {
+            JOptionPane.showMessageDialog(null, "Điểm 15p không được lớn hơn 10!");
+        } else if (Float.parseFloat(txtDiem45.getText()) > 10) {
+            JOptionPane.showMessageDialog(null, "Điểm 45p không được lớn hơn 10!");
         } else if (Float.parseFloat(txtDiemthi.getText()) > 10) {
-            JOptionPane.showMessageDialog(null, "�?iểm thi không được lớn hơn 10!");
+            JOptionPane.showMessageDialog(null, "Điểm thi không được lớn hơn 10!");
         } else if (txtTongket.getText().length() == 0 || txtTongket.getText() == null) {
-            JOptionPane.showMessageDialog(null, "�?iểm tổng kết không được để trống!");
+            JOptionPane.showMessageDialog(null, "Điểm tổng kết không được để trống!");
         } else {
             diem.setIDlop(comboBox_IDlopdiem.getSelectedItem().toString());
             diem.setMonhoc(comboBox_Mondiem.getSelectedItem().toString());
             diem.setIDMonhoc(txtIDmondiem.getText().toString());
             diem.setIDsinhvien(comboBox_IDsvdiem.getSelectedItem().toString());
-            diem.setDiem15(Float.parseFloat(txtDiemthi15p.getText()));
-            diem.setDiem45(Float.parseFloat(txtDiemthi45p.getText()));
+            diem.setDiem15(Float.parseFloat(txtDiem15.getText()));
+            diem.setDiem45(Float.parseFloat(txtDiem45.getText()));
             diem.setDiemthi(Float.parseFloat(txtDiemthi.getText()));
             diem.setTongket(Float.parseFloat(txtTongket.getText()));
             if (radioDat.isSelected()) {
@@ -403,7 +479,7 @@ public class panelQLDiem extends javax.swing.JFrame {
             diem.setIDgiaovien(id);
             DiemDAO diemDAO = new DiemDAO();
             diemDAO.addDiem(diem, comboBox_IDsvdiem.getSelectedItem().toString(),
-                txtIDmondiem.getText().toString());
+            txtIDmondiem.getText().toString());
         }
         showTableDiem();
     }//GEN-LAST:event_btnThemActionPerformed
@@ -411,25 +487,139 @@ public class panelQLDiem extends javax.swing.JFrame {
     private void tableQLdiemMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableQLdiemMousePressed
         // TODO add your handling code here:
         try {
-				comboBox_IDlopdiem.removeAllItems();
-				comboBox_Mondiem.removeAllItems();
-				comboBox_IDsvdiem.removeAllItems();
-				int row = tableQLdiem.getSelectedRow();
-				comboBox_IDlopdiem.addItem((tableQLdiem.getValueAt(row, 1));
-				comboBox_IDsvdiem.addItem(tableQLdiem.getValueAt(row, 2).toString());
-				txtIDmondiem.setText(tableQLdiem.getValueAt(row, 3).toString());
-				comboBox_Mondiem.addItem(tableQLdiem.getValueAt(row, 4).toString());
-				txtDiemthi15p.setText(tableQLdiem.getValueAt(row, 5).toString());
-				txtDiemthi45p.setText(tableQLdiem.getValueAt(row, 6).toString());
-				txtDiemthi.setText(tableQLdiem.getValueAt(row, 7).toString());
-				txtTongket.setText(tableQLdiem.getValueAt(row, 8).toString());
-				if (tableQLdiem.getValueAt(row, 9).toString().equals("Dat")) {
-					radioDat.setSelected(true);
-				} else {
-					radioKhongdat.setSelected(true);
-				}
-				} catch (Exception e) {}
+            int row = tableQLdiem.getSelectedRow();
+            comboBox_IDlopdiem.addItem((tableQLdiem.getValueAt(row, 2).toString()));
+            comboBox_IDsvdiem.addItem(tableQLdiem.getValueAt(row, 3).toString());
+            txtIDmondiem.setText(tableQLdiem.getValueAt(row, 4).toString());
+            comboBox_Mondiem.addItem(tableQLdiem.getValueAt(
+                row, 5).toString());
+            txtDiem15.setText(tableQLdiem.getValueAt(row, 6).toString());
+            txtDiem45.setText(tableQLdiem.getValueAt(row, 7).toString());
+            txtDiemthi.setText(tableQLdiem.getValueAt(row, 8).toString());
+            txtTongket.setText(tableQLdiem.getValueAt(row, 9).toString());
+            if (tableQLdiem.getValueAt(row, 10).toString().equals("Dat")) {
+                radioDat.setSelected(true);
+            } else {
+                radioKDat.setSelected(true);
+            }
+            } catch (Exception e) {}
     }//GEN-LAST:event_tableQLdiemMousePressed
+
+    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
+        // TODO add your handling code here:
+        comboBox_IDlopdiem.setSelectedIndex(0);
+        comboBox_IDsvdiem.setSelectedIndex(0);
+        txtIDmondiem.setText("");
+        txtDiem15.setText("");
+        txtDiem45.setText("");
+        txtDiemthi.setText("");
+        showTableDiem();
+    }//GEN-LAST:event_btnResetActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        Matcher m = null;
+        Diem diem = new Diem();
+        // Bat loi nguoi dung nhap diem
+        if (comboBox_IDlopdiem.getSelectedItem() == null || comboBox_Mondiem.getSelectedItem() == null
+            || comboBox_IDsvdiem.getSelectedItem() == null) {
+            JOptionPane.showMessageDialog(null, "Vui lòng lấy đầy đủ thông tin ");
+        } else if (txtIDmondiem.getText().length() == 0) {
+            JOptionPane.showMessageDialog(null, "ID môn không được để trống !");
+        } else if (txtDiem15.getText().length() == 0 || txtDiem45.getText().length() == 0
+                    || txtDiemthi.getText().length() == 0) {
+            JOptionPane.showMessageDialog(null, "Không được để trống ô điểm!");
+
+        } else if (txtDiem15.getText().matches("(.*)[a-zA-Z](.*)")
+                    || txtDiem45.getText().matches("(.*)[a-zA-Z](.*)")
+                    || txtDiemthi.getText().matches("(.*)[a-zA-Z](.*)")) {
+            JOptionPane.showMessageDialog(null, "Không được nhập chữ vào ô điểm!");
+        } else if (Float.parseFloat(txtDiem15.getText()) > 10) {
+            JOptionPane.showMessageDialog(null, "Điểm 15p không được lớn hơn 10!");
+        } else if (Float.parseFloat(txtDiem45.getText()) > 10) {
+            JOptionPane.showMessageDialog(null, "Điểm 45p không được lớn hơn 10!");
+        } else if (Float.parseFloat(txtDiemthi.getText()) > 10) {
+            JOptionPane.showMessageDialog(null, "Điểm thi không được lớn hơn 10!");
+        } else if (txtTongket.getText().length() == 0 || txtTongket.getText() == null) {
+            JOptionPane.showMessageDialog(null, "Điểm tổng kết không được để trống!");
+        } else {
+            diem.setIDlop(comboBox_IDlopdiem.getSelectedItem().toString());
+            diem.setMonhoc(comboBox_Mondiem.getSelectedItem().toString());
+            diem.setIDMonhoc(txtIDmondiem.getText().toString());
+            diem.setIDsinhvien(comboBox_IDsvdiem.getSelectedItem().toString());
+            diem.setDiem15(Float.parseFloat(txtDiem15.getText()));
+            diem.setDiem45(Float.parseFloat(txtDiem45.getText()));
+            diem.setDiemthi(Float.parseFloat(txtDiemthi.getText()));
+            diem.setTongket(Float.parseFloat(txtTongket.getText()));
+            if (radioDat.isSelected()) {
+                    diem.setKetqua("Dat");
+            } else {
+                    diem.setKetqua("Khong Dat");
+            }
+            diem.setIDgiaovien(id);
+            DiemDAO diemDAO = new DiemDAO();
+            diemDAO.editDiem(diem);
+        }
+        showTableDiem();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void btnUnselectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUnselectActionPerformed
+        // TODO add your handling code here:
+        showTableDiem();
+    }//GEN-LAST:event_btnUnselectActionPerformed
+
+    private void btnSelectAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectAllActionPerformed
+        // TODO add your handling code here:
+        tableQLdiem.setModel(new DefaultTableModel());
+        DefaultTableModel model = new DefaultTableModel() {
+
+                public Class<?> getColumnClass(int column) {
+                        switch (column) {
+                        case 0:
+                                return Boolean.class;
+                        default:
+                                return String.class;
+                        }
+                }
+        };
+        tableQLdiem.setModel(model);
+        // Add Column
+        model.addColumn("Select");
+        model.addColumn("ID Lop");
+        model.addColumn("ID Sinh Vien");
+        model.addColumn("ID Mon Hoc");
+        model.addColumn("Mon Hoc");
+        model.addColumn("Diem 15p");
+        model.addColumn("Diem 45p");
+        model.addColumn("Diem thi");
+        model.addColumn("Tong Ket");
+        model.addColumn("Ket Qua");
+        model.addColumn("ID Giao Vien");
+        tableQLdiem.setModel(model);
+        String sql = "SELECT * FROM  project.diem";
+		try {
+			stmt = conn.prepareStatement(sql);
+			rs = stmt.executeQuery(sql);
+			int row = 0;
+			while ((rs != null) && (rs.next())) {
+				model.addRow(new Object[0]);
+				model.setValueAt(true, row, 0); // Checkbox
+				model.setValueAt(rs.getString("idlop"), row, 1);
+				model.setValueAt(rs.getString("idsv"), row, 2);
+				model.setValueAt(rs.getString("idmon"), row, 3);
+				model.setValueAt(rs.getString("mon"), row, 4);
+				model.setValueAt(rs.getFloat("diem15"), row, 5);
+				model.setValueAt(rs.getFloat("diem45"), row, 6);
+				model.setValueAt(rs.getFloat("diemthi"), row, 7);
+				model.setValueAt(rs.getFloat("tongket"), row, 8);
+				model.setValueAt(rs.getString("ketqua"), row, 9);
+				model.setValueAt(rs.getString("idgv"), row, 10);
+				row++;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    }//GEN-LAST:event_btnSelectAllActionPerformed
 
     /**
      * @param args the command line arguments
@@ -474,6 +664,9 @@ public class panelQLDiem extends javax.swing.JFrame {
     }
     private void showTableDiem() {
 		// Clear table
+                comboBox_IDlopdiem.removeAllItems();
+                comboBox_IDsvdiem.removeAllItems();
+                comboBox_Mondiem.removeAllItems();
 		tableQLdiem.setModel(new DefaultTableModel());
 		// Model for Table
 		DefaultTableModel model = new DefaultTableModel() {
@@ -524,24 +717,35 @@ public class panelQLDiem extends javax.swing.JFrame {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-                sql = "select hedt from sinhvien";
-		try {
-			stmt = conn.prepareStatement(sql);
-			rs = stmt.executeQuery(sql);
-			int row = 0;
-			while ((rs != null) && (rs.next())) {
-				comboHeDaoTao.addItem(rs.getString(1));
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-                sql = "select idkhoa from khoa";
+                sql = "select idlop from lop";
                 try {
                     stmt = conn.prepareStatement(sql);
                     rs = stmt.executeQuery(sql);
                     int row = 0;
                     while ((rs != null) && (rs.next())) {
-                        comboMakhoa.addItem(rs.getString(1));
+                        comboBox_IDlopdiem.addItem(rs.getString(1));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                sql = "select idsv from sinhvien";
+                try {
+                    stmt = conn.prepareStatement(sql);
+                    rs = stmt.executeQuery(sql);
+                    int row = 0;
+                    while ((rs != null) && (rs.next())) {
+                        comboBox_IDsvdiem.addItem(rs.getString(1));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                sql = "select mon from mon";
+                try {
+                    stmt = conn.prepareStatement(sql);
+                    rs = stmt.executeQuery(sql);
+                    int row = 0;
+                    while ((rs != null) && (rs.next())) {
+                        comboBox_Mondiem.addItem(rs.getString(1));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -560,6 +764,7 @@ public class panelQLDiem extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> comboBox_Mondiem;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -567,16 +772,19 @@ public class panelQLDiem extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
     private javax.swing.JRadioButton radioDat;
     private javax.swing.JRadioButton radioKDat;
     private javax.swing.JTable tableQLdiem;
+    private javax.swing.JTextField txtDiem15;
+    private javax.swing.JTextField txtDiem45;
+    private javax.swing.JTextField txtDiemthi;
+    private javax.swing.JTextField txtIDmondiem;
+    private javax.swing.JTextField txtTongket;
     // End of variables declaration//GEN-END:variables
 }

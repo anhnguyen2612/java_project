@@ -5,54 +5,49 @@
  */
 package form;
 
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import model.Khoa;
-import model.KhoaDAO;
 import model.Login;
+import model.Mon;
+import model.MonDAO;
 
 /**
  *
- * @author Admin
+ * @author MYPCDESU
  */
-public class panelQLKhoa extends javax.swing.JFrame {
+public class panelQLMon extends javax.swing.JFrame {
+
     /**
-     * Creates new form panelQLLop
+     * Creates new form panelQLMon
      */
     private Connection conn;
     private PreparedStatement stmt;
     private ResultSet rs;
-    public panelQLKhoa() {
+    public panelQLMon() {
         initComponents();
         try {
 			conn = DBUtil.getConnection();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-        showTableKhoa();
-        cbSapXep.setModel(new DefaultComboBoxModel(
-                        new String[] { "idkhoa","khoa" }));
+         cbSapXep.setModel(new DefaultComboBoxModel(
+                        new String[] { "idmon","mon","tinchi","idkhoa" }));
+        showTableMon();
     }
-    public panelQLKhoa(Login login) {
+    public panelQLMon(Login login) {
         initComponents();
         try {
 			conn = DBUtil.getConnection();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-        showTableKhoa();
-        cbSapXep.setModel(new DefaultComboBoxModel(
-                        new String[] { "idkhoa","khoa" }));
+        showTableMon();
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -66,8 +61,8 @@ public class panelQLKhoa extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        txtMaKhoa = new javax.swing.JTextField();
-        txtTenKhoa = new javax.swing.JTextField();
+        txtMon = new javax.swing.JTextField();
+        txtIDmon = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         btnThem = new javax.swing.JButton();
@@ -82,14 +77,18 @@ public class panelQLKhoa extends javax.swing.JFrame {
         cbSapXep = new javax.swing.JComboBox<>();
         btnZA = new javax.swing.JButton();
         btnAZ = new javax.swing.JButton();
+        comboBox_IDkhoamon = new javax.swing.JComboBox<>();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        txttinchi = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tableQLkhoa = new javax.swing.JTable();
+        tableQLmon = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 102, 102));
-        jLabel1.setText("Quản lý khoa");
+        jLabel1.setText("Quản lý Môn");
         jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -112,10 +111,10 @@ public class panelQLKhoa extends javax.swing.JFrame {
         jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel2.setText("Mã khoa:");
+        jLabel2.setText("Tên môn:");
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel6.setText("Tên khoa:");
+        jLabel6.setText("Mã khoa:");
 
         jPanel4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -277,74 +276,111 @@ public class panelQLKhoa extends javax.swing.JFrame {
                 .addContainerGap(13, Short.MAX_VALUE))
         );
 
+        comboBox_IDkhoamon.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel4.setText("Mã môn:");
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel7.setText("Số tín chỉ:");
+
+        txttinchi.setColumns(10);
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
                             .addComponent(jLabel6))
-                        .addGap(14, 14, 14)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtTenKhoa, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
-                            .addComponent(txtMaKhoa))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(14, 14, 14)
+                                .addComponent(txtMon, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(comboBox_IDkhoamon, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtIDmon, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txttinchi, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(170, 170, 170)))
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(14, 14, 14)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtMaKhoa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtIDmon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtTenKhoa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
-                .addGap(16, 16, 16)
+                    .addComponent(jLabel2)
+                    .addComponent(txtMon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(txttinchi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(comboBox_IDkhoamon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
-        tableQLkhoa.setModel(new javax.swing.table.DefaultTableModel(
+        tableQLmon.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Select", "ID khoa", "Tên khoa"
+                "Select", "Mã Môn học", "Tên môn học", "Số tín chỉ", "Mã khoa"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
-        tableQLkhoa.addMouseListener(new java.awt.event.MouseAdapter() {
+        tableQLmon.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                tableQLkhoaMousePressed(evt);
+                tableQLmonMousePressed(evt);
             }
         });
-        jScrollPane1.setViewportView(tableQLkhoa);
+        jScrollPane1.setViewportView(tableQLmon);
+        if (tableQLmon.getColumnModel().getColumnCount() > 0) {
+            tableQLmon.getColumnModel().getColumn(0).setResizable(false);
+            tableQLmon.getColumnModel().getColumn(0).setPreferredWidth(3);
+            tableQLmon.getColumnModel().getColumn(3).setResizable(false);
+            tableQLmon.getColumnModel().getColumn(3).setPreferredWidth(8);
+        }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -362,10 +398,10 @@ public class panelQLKhoa extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap(204, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 472, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -373,51 +409,63 @@ public class panelQLKhoa extends javax.swing.JFrame {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
-        Khoa khoa = new Khoa();
-        if (txtMaKhoa.getText().length() == 0) {
-                JOptionPane.showMessageDialog(null, "ID khoa không được để trống !");
-        } else if (txtTenKhoa.getText().length() == 0) {
-                JOptionPane.showMessageDialog(null, "Tên khoa không được để trống !");
-        } else if (txtTenKhoa.getText().matches("(.*)[0-9](.*)")) {
-                JOptionPane.showMessageDialog(null, "Tên khoa hông được nhập số !");
-        } else {
-                khoa.setIDkhoa(txtMaKhoa.getText());
-                khoa.setTenkhoa(txtTenKhoa.getText());
-                KhoaDAO khoaDAO = new KhoaDAO();
-                khoaDAO.addKhoa(khoa);
+        Mon mon = new Mon();
+        if(txtIDmon.getText().length()==0){
+                JOptionPane.showMessageDialog(null, "ID môn không được để trống !");
+        }else if(txtMon.getText().length()==0){
+                JOptionPane.showMessageDialog(null, "Tên môn không được để trống !");
+        }else{
+        mon.setIDmon(txtIDmon.getText());
+        mon.setTenmon(txtMon.getText());
+        mon.setTinchi(txttinchi.getText());
+        mon.setIDkhoa(comboBox_IDkhoamon.getSelectedItem().toString());
+        MonDAO monDAO = new MonDAO();
+        monDAO.addMoṇ(mon);
         }
-        showTableKhoa();
+        showTableMon();;
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         // TODO add your handling code here:
-        Khoa khoa = new Khoa();
-        if (txtMaKhoa.getText().length() == 0) {
-                JOptionPane.showMessageDialog(null, "ID khoa không được để trống !");
-        } else if (txtTenKhoa.getText().length() == 0) {
-                JOptionPane.showMessageDialog(null, "Tên khoa không được để trống !");
-        } else if (txtTenKhoa.getText().matches("(.*)[0-9](.*)")) {
-                JOptionPane.showMessageDialog(null, "Tên khoa hông được nhập số !");
+        Mon mon = new Mon();
+        if(txtIDmon.getText().length()==0){
+                JOptionPane.showMessageDialog(null, "ID môn không được để trống !");
+        }else if(txtMon.getText().length()==0){
+                JOptionPane.showMessageDialog(null, "Tên môn không được để trống !");
         }else{
-                khoa.setIDkhoa(txtMaKhoa.getText());
-                khoa.setTenkhoa(txtTenKhoa.getText());
-                KhoaDAO khoaDAO = new KhoaDAO();
-                khoaDAO.editKhoa(khoa);
+        mon.setIDmon(txtIDmon.getText());
+        mon.setTenmon(txtMon.getText());
+        mon.setTinchi(txttinchi.getText());
+        mon.setIDkhoa(comboBox_IDkhoamon.getSelectedItem().toString());
+        MonDAO monDAO = new MonDAO();
+        monDAO.editMon(mon);
         }
-        showTableKhoa();
+        showTableMon();
     }//GEN-LAST:event_btnEditActionPerformed
 
-    private void btnUnselectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUnselectActionPerformed
+    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         // TODO add your handling code here:
-        showTableKhoa();
-    }//GEN-LAST:event_btnUnselectActionPerformed
+        MonDAO monDAO = new MonDAO();
+        monDAO.deleteMon(tableQLmon);
+        showTableMon();
+    }//GEN-LAST:event_btnXoaActionPerformed
+
+    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
+        // TODO add your handling code here:
+        txtMon.setText("");
+        txtIDmon.setText("");
+        txttinchi.setText("");
+        comboBox_IDkhoamon.setSelectedIndex(0);
+        showTableMon();
+    }//GEN-LAST:event_btnResetActionPerformed
 
     private void btnSelectAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectAllActionPerformed
         // TODO add your handling code here:
-        tableQLkhoa.setModel(new DefaultTableModel());
+        comboBox_IDkhoamon.removeAllItems();
+		// Clear table
+		tableQLmon.setModel(new DefaultTableModel());
 		// Model for Table
 		DefaultTableModel model = new DefaultTableModel() {
-
 			public Class<?> getColumnClass(int column) {
 				switch (column) {
 				case 0:
@@ -427,54 +475,42 @@ public class panelQLKhoa extends javax.swing.JFrame {
 				}
 			}
 		};
-		tableQLkhoa.setModel(model);
+		tableQLmon.setModel(model);
 		// Add Column
 		model.addColumn("Select");
-		model.addColumn("ID Khoa");
-		model.addColumn("Ten Khoa");
-		String sql = "SELECT * FROM  project.khoa";
+		model.addColumn("Ma Mon Hoc");
+		model.addColumn("Ten Mon Hoc");
+		model.addColumn("So Tin Chi");
+		model.addColumn("Ma Khoa");
+		String sql = "SELECT * FROM  project.mon";
 		try {
-
 			stmt = conn.prepareStatement(sql);
 			rs = stmt.executeQuery(sql);
 			int row = 0;
 			while ((rs != null) && (rs.next())) {
 				model.addRow(new Object[0]);
 				model.setValueAt(true, row, 0); // Checkbox
-				model.setValueAt(rs.getString("idkhoa"), row, 1);
-				model.setValueAt(rs.getString("khoa"), row, 2);
+				model.setValueAt(rs.getString("idmon"), row, 1);
+				model.setValueAt(rs.getString("mon"), row, 2);
+				model.setValueAt(rs.getString("tinchi"), row, 3);
+				model.setValueAt(rs.getString("idkhoa"), row, 4);
 				row++;
+				// Display comboBox set from databse
+				comboBox_IDkhoamon.addItem(rs.getString("idmon"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
     }//GEN-LAST:event_btnSelectAllActionPerformed
 
-    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
+    private void btnUnselectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUnselectActionPerformed
         // TODO add your handling code here:
-        txtMaKhoa.setText("");
-        txtTenKhoa.setText("");
-    }//GEN-LAST:event_btnResetActionPerformed
+        showTableMon();
+    }//GEN-LAST:event_btnUnselectActionPerformed
 
-    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
-        // TODO add your handling code here:
-        KhoaDAO khoaDAO = new KhoaDAO();
-        khoaDAO.deleteKhoa(tableQLkhoa);
-        showTableKhoa();
-    }//GEN-LAST:event_btnXoaActionPerformed
-
-    private void tableQLkhoaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableQLkhoaMousePressed
-        // TODO add your handling code here:
-         try {
-                int row = tableQLkhoa.getSelectedRow();
-                txtMaKhoa.setText(tableQLkhoa.getValueAt(row, 1).toString());
-                txtTenKhoa.setText(tableQLkhoa.getValueAt(row, 2).toString());
-        } catch (Exception e) {}
-    }//GEN-LAST:event_tableQLkhoaMousePressed
-
-    private void btnAZActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAZActionPerformed
-        // TODO add your handling code here:
-        tableQLkhoa.setModel(new DefaultTableModel());
+    private void btnZAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZAActionPerformed
+       comboBox_IDkhoamon.removeAllItems();
+        tableQLmon.setModel(new DefaultTableModel());
         // Model for Table
         DefaultTableModel model = new DefaultTableModel() {
 
@@ -487,66 +523,87 @@ public class panelQLKhoa extends javax.swing.JFrame {
                         }
                 }
         };
-        tableQLkhoa.setModel(model);
+        tableQLmon.setModel(model);
         // Add Column
         model.addColumn("Select");
+        model.addColumn("ID Môn");
+        model.addColumn("Ten Môn");
+        model.addColumn("Tín chỉ");
         model.addColumn("ID Khoa");
-        model.addColumn("Khoa");
-        String sql = "SELECT * FROM project.khoa ORDER BY "+cbSapXep.getSelectedItem() + " ASC" + ";";
+        String sql = "SELECT * FROM project.mon ORDER BY "+cbSapXep.getSelectedItem() + " DESC" + ";";
         try {
 
-                stmt = conn.prepareStatement(sql);
+            stmt = conn.prepareStatement(sql);
                 rs = stmt.executeQuery(sql);
                 int row = 0;
                 while ((rs != null) && (rs.next())) {
                         model.addRow(new Object[0]);
                         model.setValueAt(false, row, 0); // Checkbox
-                        model.setValueAt(rs.getString("idkhoa"), row, 1);
-                        model.setValueAt(rs.getString("khoa"), row, 2);
+                        model.setValueAt(rs.getString("idmon"), row, 1);
+                        model.setValueAt(rs.getString("mon"), row, 2);
+                        model.setValueAt(rs.getString("tinchi"), row, 3);
+                        model.setValueAt(rs.getString("idkhoa"), row, 4);
                         row++;
-                }
+                        // Display comboBox set from databse
+                        comboBox_IDkhoamon.addItem(rs.getString("idkhoa"));
+            }
         } catch (Exception e) {
-                e.printStackTrace();
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btnZAActionPerformed
+
+    private void btnAZActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAZActionPerformed
+        comboBox_IDkhoamon.removeAllItems();
+        tableQLmon.setModel(new DefaultTableModel());
+        // Model for Table
+        DefaultTableModel model = new DefaultTableModel() {
+
+        public Class<?> getColumnClass(int column) {
+                        switch (column) {
+                        case 0:
+                                return Boolean.class;
+                        default:
+                                return String.class;
+                        }
+                }
+        };
+        tableQLmon.setModel(model);
+        // Add Column
+        model.addColumn("Select");
+        model.addColumn("ID Môn");
+        model.addColumn("Ten Môn");
+        model.addColumn("Tín chỉ");
+        model.addColumn("ID Khoa");
+        String sql = "SELECT * FROM project.mon ORDER BY "+cbSapXep.getSelectedItem() + " ASC" + ";";
+        try {
+
+            stmt = conn.prepareStatement(sql);
+                rs = stmt.executeQuery(sql);
+                int row = 0;
+                while ((rs != null) && (rs.next())) {
+                        model.addRow(new Object[0]);
+                        model.setValueAt(false, row, 0); // Checkbox
+                        model.setValueAt(rs.getString("idmon"), row, 1);
+                        model.setValueAt(rs.getString("mon"), row, 2);
+                        model.setValueAt(rs.getString("tinchi"), row, 3);
+                        model.setValueAt(rs.getString("idkhoa"), row, 4);
+                        row++;
+                        // Display comboBox set from databse
+                        comboBox_IDkhoamon.addItem(rs.getString("idkhoa"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }//GEN-LAST:event_btnAZActionPerformed
 
-    private void btnZAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZAActionPerformed
+    private void tableQLmonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableQLmonMousePressed
         // TODO add your handling code here:
-        tableQLkhoa.setModel(new DefaultTableModel());
-        // Model for Table
-        DefaultTableModel model = new DefaultTableModel() {
-
-        public Class<?> getColumnClass(int column) {
-                        switch (column) {
-                        case 0:
-                                return Boolean.class;
-                        default:
-                                return String.class;
-                        }
-                }
-        };
-        tableQLkhoa.setModel(model);
-        // Add Column
-        model.addColumn("Select");
-        model.addColumn("IDKhoa");
-        model.addColumn("Khoa");
-        String sql = "SELECT * FROM khoa ORDER BY "+cbSapXep.getSelectedItem() + " DESC";
         try {
-
-                stmt = conn.prepareStatement(sql);
-                rs = stmt.executeQuery(sql);
-                int row = 0;
-                while ((rs != null) && (rs.next())) {
-                        model.addRow(new Object[0]);
-                        model.setValueAt(false, row, 0); // Checkbox
-                        model.setValueAt(rs.getString("idkhoa"), row, 1);
-                        model.setValueAt(rs.getString("khoa"), row, 2);
-                        row++;
-                }
-        } catch (Exception e) {
-                e.printStackTrace();
-        }
-    }//GEN-LAST:event_btnZAActionPerformed
+            int row = tableQLmon.getSelectedRow();
+            txtMon.setText(tableQLmon.getValueAt(row, 2).toString());
+            txtIDmon.setText(tableQLmon.getValueAt(row, 1).toString());
+        } catch (Exception e) {}
+    }//GEN-LAST:event_tableQLmonMousePressed
 
     /**
      * @param args the command line arguments
@@ -565,62 +622,65 @@ public class panelQLKhoa extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(panelQLKhoa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(panelQLMon.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(panelQLKhoa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(panelQLMon.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(panelQLKhoa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(panelQLMon.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(panelQLKhoa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(panelQLMon.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new panelQLKhoa().setVisible(true);
+                new panelQLMon().setVisible(true);
             }
         });
     }
-    private void showTableKhoa() {
-		// Clear table
-		tableQLkhoa.setModel(new DefaultTableModel());
-		// Model for Table
-		DefaultTableModel model = new DefaultTableModel() {
+    
+    private void showTableMon() {
+        comboBox_IDkhoamon.removeAllItems();
+        tableQLmon.setModel(new DefaultTableModel());
+        // Model for Table
+        DefaultTableModel model = new DefaultTableModel() {
 
-                public Class<?> getColumnClass(int column) {
-				switch (column) {
-				case 0:
-					return Boolean.class;
-				default:
-					return String.class;
-				}
-			}
-		};
-		tableQLkhoa.setModel(model);
-		// Add Column
-		model.addColumn("Select");
-		model.addColumn("ID Khoa");
-		model.addColumn("Ten Khoa");
-		String sql = "SELECT * FROM khoa";
-		try {
-
-			stmt = conn.prepareStatement(sql);
-			rs = stmt.executeQuery(sql);
-			int row = 0;
-			while ((rs != null) && (rs.next())) {
-				model.addRow(new Object[0]);
-				model.setValueAt(false, row, 0); // Checkbox
-				model.setValueAt(rs.getString("idkhoa"), row, 1);
-				model.setValueAt(rs.getString("khoa"), row, 2);
-				row++;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+        public Class<?> getColumnClass(int column) {
+                        switch (column) {
+                        case 0:
+                                return Boolean.class;
+                        default:
+                                return String.class;
+                        }
+                }
+        };
+        tableQLmon.setModel(model);
+        // Add Column
+        model.addColumn("Select");
+        model.addColumn("ID Môn");
+        model.addColumn("Ten Môn");
+        model.addColumn("Tín chỉ");
+        model.addColumn("ID Khoa");
+        String sql = "SELECT * FROM mon";
+        try {
+                stmt = conn.prepareStatement(sql);
+                rs = stmt.executeQuery(sql);
+                int row = 0;
+                while ((rs != null) && (rs.next())) {
+                        model.addRow(new Object[0]);
+                        model.setValueAt(false, row, 0); // Checkbox
+                        model.setValueAt(rs.getString("idmon"), row, 1);
+                        model.setValueAt(rs.getString("mon"), row, 2);
+                        model.setValueAt(rs.getString("tinchi"), row, 3);
+                        model.setValueAt(rs.getString("idkhoa"), row, 4);
+                        row++;
+                        // Display comboBox set from databse
+                        comboBox_IDkhoamon.addItem(rs.getString("idkhoa"));
+                }
+        } catch (Exception e) {
+                e.printStackTrace();
+        }
 	}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -633,18 +693,22 @@ public class panelQLKhoa extends javax.swing.JFrame {
     private javax.swing.JButton btnXoa;
     private javax.swing.JButton btnZA;
     private javax.swing.JComboBox<String> cbSapXep;
+    private javax.swing.JComboBox<String> comboBox_IDkhoamon;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tableQLkhoa;
-    private javax.swing.JTextField txtMaKhoa;
-    private javax.swing.JTextField txtTenKhoa;
+    private javax.swing.JTable tableQLmon;
+    private javax.swing.JTextField txtIDmon;
+    private javax.swing.JTextField txtMon;
+    private javax.swing.JTextField txttinchi;
     // End of variables declaration//GEN-END:variables
 }

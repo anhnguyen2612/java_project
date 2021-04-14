@@ -49,6 +49,8 @@ public class JFMainForm extends javax.swing.JFrame {
     private PreparedStatement stmt;
     private ResultSet rs;
     private JTable table;
+    private String id;
+    private Login login;
     public JFMainForm() {
         initComponents();
         this.setTitle("Application main form");
@@ -74,7 +76,9 @@ public class JFMainForm extends javax.swing.JFrame {
     }
     ).start();
     }
-    public JFMainForm(Login login) {
+    public JFMainForm(Login log) {
+        initComponents();
+        this.login=log;
         this.setTitle("Application main form");
         this.setSize(1280, 720);
         this.setLocationRelativeTo(null);
@@ -701,34 +705,34 @@ public class JFMainForm extends javax.swing.JFrame {
 
     private void btnMonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMonActionPerformed
         // TODO add your handling code here:
-        panelQLMon qlmon = new panelQLMon();
+        panelQLMon qlmon = new panelQLMon(login);
         panelform.removeAll();
         panelform.add(qlmon.getContentPane());
     }//GEN-LAST:event_btnMonActionPerformed
 
     private void btnLopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLopActionPerformed
         // TODO add your handling code here:
-        panelQLLop qllop = new panelQLLop();
+        panelQLLop qllop = new panelQLLop(login);
         panelform.removeAll();
         panelform.add(qllop.getContentPane());
     }//GEN-LAST:event_btnLopActionPerformed
 
     private void btnKhoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKhoaActionPerformed
         // TODO add your handling code here:
-        panelQLKhoa qlkhoa = new panelQLKhoa();
+        panelQLKhoa qlkhoa = new panelQLKhoa(login);
         panelform.removeAll();
         panelform.add(qlkhoa.getContentPane());
     }//GEN-LAST:event_btnKhoaActionPerformed
 
     private void btnDiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDiemActionPerformed
         // TODO add your handling code here:
-        panelQLDiem qlgv = new panelQLDiem();
+        panelQLDiem qlgv = new panelQLDiem(login);
         panelform.removeAll();
         panelform.add(qlgv.getContentPane());
     }//GEN-LAST:event_btnDiemActionPerformed
 
     private void btnSVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSVActionPerformed
-        panelQLSinhVien qlsv = new panelQLSinhVien();
+        panelQLSinhVien qlsv = new panelQLSinhVien(login);
         panelform.removeAll();
         panelform.add(qlsv.getContentPane());
         

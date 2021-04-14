@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 13, 2021 at 05:07 PM
+-- Generation Time: Apr 14, 2021 at 06:13 AM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 7.4.16
 
@@ -65,7 +65,8 @@ CREATE TABLE `diem` (
 --
 
 INSERT INTO `diem` (`idlop`, `mon`, `idmon`, `idsv`, `diem15`, `diem45`, `diemthi`, `tongket`, `ketqua`, `idgv`) VALUES
-('17cntt', 'tech', 't1', 'sv1', 5, 5, 5, 5, 'ket quả', 'gv1');
+('17cntt', 'tech', 't1', 'sv1', 5, 5, 5, 5, 'ket quả', 'gv1'),
+('17cntt', 'code', 't2', 'sv1', 5, 5, 5, 7, 'Khong Dat', NULL);
 
 -- --------------------------------------------------------
 
@@ -167,8 +168,11 @@ CREATE TABLE `mon` (
 --
 
 INSERT INTO `mon` (`idmon`, `mon`, `tinchi`, `idkhoa`) VALUES
-('t1', 'tech', 'tinchi1', 'cntt'),
-('t2', 'code', 'tinchi2', 'cntt');
+('t1', 'tech', '3', 'cntt'),
+('t2', 'code c++', '3', 'cntt'),
+('vo101', 'vovinam 1', '1', 'cntt'),
+('vo102', 'vovinam 2', '1', 'cntt'),
+('vo103', 'vovinam 3', '1', 'cntt');
 
 -- --------------------------------------------------------
 
@@ -193,8 +197,8 @@ CREATE TABLE `sinhvien` (
 --
 
 INSERT INTO `sinhvien` (`idsv`, `hoten`, `idlop`, `hedt`, `ngaysinh`, `diachi`, `gioitinh`, `sdt`, `idkhoa`) VALUES
-('sv1', 'huy', '17cntt', 'nulld', '2011-04-13', '??? DBP', 'Nam', '0932132123', 'cntt'),
-('sv2', 'nghĩa', '17qtkd', 'null', '2009-04-13', '??? DBP', 'Nam', '0976523223', 'qtkd');
+('sv1', 'huy', '17cntt', 'chính quy', '2011-04-13', '??? DBP', 'Nam', '0932132123', 'cntt'),
+('sv2', 'nghĩa', '17qtkd', 'không chính quy', '2009-04-13', '??? DBP', 'Nam', '0976523223', 'qtkd');
 
 --
 -- Indexes for dumped tables

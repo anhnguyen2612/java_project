@@ -15,6 +15,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import model.Login;
 import model.Sinhvien;
 import model.SinhvienDAO;
 
@@ -30,6 +31,18 @@ public class panelQLSinhVien extends javax.swing.JFrame {
     private PreparedStatement stmt;
     private ResultSet rs;
     public panelQLSinhVien() {
+        initComponents();
+        try {
+			conn = DBUtil.getConnection();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+        showTableSinhVien();
+        cbSapXep.setModel(new DefaultComboBoxModel(
+				new String[] { "idsv", "hoten", "idlop", "idkhoa","hedt", "ngaysinh", "diachi", "gioitinh", "sdt" }));
+        
+    }
+    public panelQLSinhVien(Login login) {
         initComponents();
         try {
 			conn = DBUtil.getConnection();
